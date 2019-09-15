@@ -1,0 +1,19 @@
+{
+    "mobileapp": {
+        "awscloudformation": {
+            "AuthRoleName": "mobileapp-mobileapp-20190916023650-authRole",
+            "UnauthRoleArn": "arn:aws:iam::713741330671:role/mobileapp-mobileapp-20190916023650-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::713741330671:role/mobileapp-mobileapp-20190916023650-authRole",
+            "Region": "ap-southeast-2",
+            "DeploymentBucketName": "mobileapp-mobileapp-20190916023650-deployment",
+            "UnauthRoleName": "mobileapp-mobileapp-20190916023650-unauthRole",
+            "StackName": "mobileapp-mobileapp-20190916023650",
+            "StackId": "arn:aws:cloudformation:ap-southeast-2:713741330671:stack/mobileapp-mobileapp-20190916023650/04ce7310-d7d7-11e9-9253-0a630e7b8d5e"
+        },
+        "categories": {
+            "auth": {
+                "mobileapp6dedc91e": {}
+            }
+        }
+    }
+}
