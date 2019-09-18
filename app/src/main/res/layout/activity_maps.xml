@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MapsActivity"
+    tools:layout="@layout/activity_maps"
+    tools:showIn="@layout/activity_maps">
+<fragment
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/map"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MapsActivity"
+    tools:layout="@layout/activity_maps" />
+
+    <Button
+        android:id="@+id/btnList"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="start|bottom"
+        android:layout_marginBottom="100dp"
+        android:layout_marginLeft="20dp"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:text="≡"
+        android:background="@drawable/round_button"
+        android:textColor="#CCF5FBFF"
+        android:layout_marginStart="20dp" />
+
+
+    <Button
+        android:id="@+id/btnMyLoc"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/round_button"
+        android:onClick="onClick_btnMyLoc"
+        android:text="⊙"
+        android:textColor="#CCF5FBFF"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnMe"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="100dp"
+        android:layout_marginRight="20dp"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:text="｡◕‿◕｡"
+        android:background="@drawable/round_button"
+        android:textColor="#CCF5FBFF"
+        android:layout_marginEnd="20dp" />
+
+</FrameLayout>
