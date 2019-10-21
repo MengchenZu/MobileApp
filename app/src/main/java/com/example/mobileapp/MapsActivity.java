@@ -1,5 +1,6 @@
 package com.example.mobileapp;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
@@ -8,11 +9,16 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.location.Location;
 import android.location.LocationManager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.content.Context;
 import android.widget.Toast;
@@ -27,20 +33,26 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {    private GoogleMap mMap;
-    private LatLng DEFAULT_LOCATION = new LatLng(-37.814, 144.96332);
+    public static final LatLng DEFAULT_LOCATION = new LatLng(-37.814, 144.96332); // melbourne
     private Circle circle;
-    LocationManager locationManager;
-    LatLng lastLocation;
-
+    private LocationManager locationManager;
+    private Timer updateTimer = new Timer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +63,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
-
 
     /**
      * Manipulates the map once available.
@@ -65,11 +76,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // melbourne: -37.814, 144.96332
-//        mMap.addMarker(new MarkerOptions().position(DEFAULT_LOCATION).title("Melbourne"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(DEFAULT_LOCATION));
-
+        // map settings
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
@@ -79,30 +87,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            lastLocation = getCurrentLocation();
+            updateLastLocation();
             mMap.setMyLocationEnabled(true);
         } else {
             // Permission is not granted
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},0);
         }
-        addCircle();
-        final Bitmap[] icon = new Bitmap[1];
-        Thread th = new Thread(new Runnable() {
-            public void run() {
-                icon[0] = DownloadImg();
-            }
-        });
-        th.start();
-        try{
-            th.join();
-        }catch (Exception e){
-
-        }
-
-        addMarker(BitmapDescriptorFactory.fromBitmap(icon[0]),DEFAULT_LOCATION);
-
-
-
+//        updateTimer.schedule(new TimerTask(){
+//            @Override
+//            public void run(){
+//                updateInformation();
+//            }
+//        }, 3000);
+        sampleMarker();
     }
 
     public Bitmap DownloadImg(){
@@ -151,29 +148,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
-    public void addMarker(BitmapDescriptor icon, LatLng loc){
+    public void addMarker(String id, BitmapDescriptor icon, LatLng loc){
         // avatat, latlng
         mMap.addMarker(new MarkerOptions()
                 .position(loc)
                 .icon(icon)
-                .title("your friend")
-                );
+                .title(id));
     }
 
     public void onClick_btnMyLoc(android.view.View v) {
-        LatLng currentLocation = getCurrentLocation();
-        if(lastLocation!=null){
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(currentLocation == null? lastLocation:currentLocation));
-            lastLocation = currentLocation == null?lastLocation:currentLocation;
-        }else{
-            lastLocation =currentLocation;
-        }
-
-        //Check Permissions again
+        updateLastLocation();
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(currentUser.location == null? DEFAULT_LOCATION: currentUser.location));
     }
 
-    private LatLng getCurrentLocation(){
-        //LocationServices.getFusedLocationProviderClient(this);
+    public void onClick_btnSv(android.view.View v){
+        LayoutInflater inflater = getLayoutInflater();
+        setContentView(inflater.inflate(R.layout.activity_street_view, null));
+    }
+
+    private void updateLastLocation(){
         if (locationManager!=null && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             Location loc= locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -181,20 +174,69 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             loc = loc == null? locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER) :loc;
             if (loc !=null)
             {
-                return new LatLng(loc.getLatitude(),loc.getLongitude());
+                currentUser.location = new LatLng(loc.getLatitude(),loc.getLongitude());
+                return;
             }
             else
             {
                 // no loc data
                 Toast.makeText(this,"Your location could not be determined", Toast.LENGTH_SHORT).show();
-                return null;
+                return;
             }
         } else {
             // Permission is not granted
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},0);
-            return null;
 
         }
+    }
+
+    private void sampleMarker(){
+
+        addCircle();
+        final Bitmap[] icon = new Bitmap[2];
+        Thread th = new Thread(new Runnable() {
+            public void run() {
+                icon[0] = DownloadImg();
+            }
+        });
+        th.start();
+        try{
+            th.join();
+        }catch (Exception e){
+
+        }
+        Matrix matrix = new Matrix();
+        matrix.postScale(.95f, .95f);
+        icon[1] = Bitmap.createBitmap(icon[0], 0, 0, icon[0].getWidth(),icon[0].getHeight(),matrix, true);
+        // update current user's info
+        // update all friends info
+        Marker marker = mMap.addMarker(new MarkerOptions()
+                .title("your friend")
+                .icon(BitmapDescriptorFactory.fromBitmap(icon[0]))
+                .position(DEFAULT_LOCATION));
+        GroundOverlayOptions newarkMap = new GroundOverlayOptions()
+                .image(BitmapDescriptorFactory.fromBitmap(icon[0]))
+                .position(DEFAULT_LOCATION, 123);
+        mMap.addGroundOverlay(newarkMap);
+        beatMarker(marker, BitmapDescriptorFactory.fromBitmap(icon[0]), BitmapDescriptorFactory.fromBitmap(icon[1]));
+    }
+
+    static void beatMarker(final Marker marker, final BitmapDescriptor bigIco, final BitmapDescriptor smallIco){
+        final Handler handler = new Handler();
+        final boolean[] toBig = {true};
+        handler.post(new Runnable() {
+            long elapsed;
+            @Override
+            public void run() {
+                if(toBig[0]){
+                    marker.setIcon(bigIco);
+                }else{
+                    marker.setIcon(smallIco);
+                }
+                toBig[0] = !toBig[0];
+                handler.postDelayed(this, 200);
+            }
+        });
     }
 
 }
