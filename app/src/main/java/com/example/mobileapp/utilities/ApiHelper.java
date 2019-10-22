@@ -1,18 +1,28 @@
 package com.example.mobileapp.utilities;
 
+import android.os.StrictMode;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 public class ApiHelper {
 
-    private static final  String TEST_URL = "http://127.0.0.1";
-    private static final String BASE_URL = "http://127.0.0.1/api/mobile/";
+    private static final  String TEST_URL = "http://104.207.132.11";
+    private static final String BASE_URL = "http://104.207.132.11/api/mobile/";
 
     public static String generalCall(String urlStr, String[] keys, Object[] values){
         try{
+            StrictMode.ThreadPolicy policy = new
+                    StrictMode.ThreadPolicy.Builder()
+                    .permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
             URL url = new URL(urlStr);HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setConnectTimeout(2000);
             connection.setRequestMethod("POST");
@@ -37,11 +47,15 @@ public class ApiHelper {
             int responseCode = connection.getResponseCode();
             if(responseCode ==200){
                 System.out.println("success");
-                InputStream inputStream = connection.getInputStream();
-                byte[] bytes = new byte[inputStream.available()];
-                inputStream.read(bytes);
-                inputStream.close();
-                String str = new String(bytes);
+
+                InputStream is = new BufferedInputStream(connection.getInputStream());
+                BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                String inputLine = "";
+                StringBuffer sb = new StringBuffer();
+                while ((inputLine = br.readLine()) != null) {
+                    sb.append(inputLine);
+                }
+                String str = sb.toString();
                 return str;
 
             }else {
@@ -49,6 +63,7 @@ public class ApiHelper {
                 return null;
             }
         }catch (Exception e){
+            System.out.println(e.getMessage());
             return null;
         }
     }
