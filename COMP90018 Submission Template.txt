@@ -1,0 +1,21 @@
+################################################################################                     
+                    COMP90018 Programming Project Submission
+################################################################################
+
+Group No: 22
+
+Group Members:
+
+1: [Chenglin Jing, chenglinj@student.unimelb.edu.au]
+2: [Jian Liu, liujl3@student.unimelb.edu.au]
+3: [Mengchen Zu, mzzu@student.unimelb.edu.au]
+4: [Xu Chen, xuc9@student.unimelb.edu.au]
+5: [Zhaowei Cui, zhaoweic1@student.unimelb.edu.au]
+
+YouTube Link:
+
+README:
+
+The backend is deployed on the server "http://104.207.132.11/api/mobile/".
+The frontend Android Project can be compiled and run through Android Studio directly.
+The communication between frontend and backend is through API.
