@@ -23,6 +23,7 @@ import android.view.View;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.example.mobileapp.models.User;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,6 +38,8 @@ import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.example.mobileapp.utilities.*;
+import com.example.mobileapp.models.*;
 
 import java.io.DataOutputStream;
 import java.io.InputStream;
@@ -50,6 +53,8 @@ import java.util.TimerTask;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {    private GoogleMap mMap;
     public static final LatLng DEFAULT_LOCATION = new LatLng(-37.814, 144.96332); // melbourne
+    public User currentUser = new User("userA", "nameA", 3, "I'm ze 1st");
+    public UserState currentState = new UserState("userA", -37.814, 144.96332,2);
     private Circle circle;
     private LocationManager locationManager;
     private Timer updateTimer = new Timer();
@@ -75,6 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mMap = googleMap;
         mMap.moveCamera(CameraUpdateFactory.newLatLng(DEFAULT_LOCATION));
         // map settings
@@ -158,7 +164,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void onClick_btnMyLoc(android.view.View v) {
         updateLastLocation();
-        mMap.animateCamera(CameraUpdateFactory.newLatLng(currentUser.location == null? DEFAULT_LOCATION: currentUser.location));
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(currentState == null? DEFAULT_LOCATION: new LatLng(currentState.lat, currentState.lng)));
     }
 
     public void onClick_btnSv(android.view.View v){
@@ -174,7 +180,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             loc = loc == null? locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER) :loc;
             if (loc !=null)
             {
-                currentUser.location = new LatLng(loc.getLatitude(),loc.getLongitude());
+                currentState.lat = loc.getLatitude();
+                currentState.lng =loc.getLongitude();
                 return;
             }
             else

@@ -6,9 +6,9 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 public class ApiHelper {
 
+    private static final  String TEST_URL = "http://127.0.0.1";
     private static final String BASE_URL = "http://127.0.0.1/api/mobile/";
 
     public static String generalCall(String urlStr, String[] keys, Object[] values){
@@ -50,6 +50,18 @@ public class ApiHelper {
             }
         }catch (Exception e){
             return null;
+        }
+    }
+    public static boolean checkNetwork(){
+        try{
+            URL url = new URL(TEST_URL);HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setConnectTimeout(2000);
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+            return true;
+        }catch (Exception e){
+            return false;
         }
     }
     // 1
