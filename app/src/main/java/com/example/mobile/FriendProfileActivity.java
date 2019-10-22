@@ -16,9 +16,9 @@ public class FriendProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_profile);
         Intent previous_intent = getIntent();
-        Friend friend = (Friend) previous_intent.getSerializableExtra("selected_friend");
+        User friend = (User) previous_intent.getSerializableExtra("selected_friend");
         ImageView profile_image = (ImageView) findViewById(R.id.friend_profile_image);
-        profile_image.setImageResource(friend.getImageId());
+        profile_image.setImageResource(friend.getAvatar());
         TextView profile_name = (TextView) findViewById(R.id.friend_profile_name);
         profile_name.setText(friend.getName());
         Button show_location = (Button) findViewById(R.id.friend_profile_button);

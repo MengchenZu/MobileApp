@@ -22,16 +22,16 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private List<Friend> friendList = new ArrayList<>();
+    private List<User> friendList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initFriends();
-        Collections.sort(friendList, new Comparator<Friend>() {
+        Collections.sort(friendList, new Comparator<User>() {
             @Override
-            public int compare(Friend o1, Friend o2) {
+            public int compare(User o1, User o2) {
                 if (o1.getName().compareTo(o2.getName()) < 0) {
                     return -1;
                 }
@@ -41,13 +41,13 @@ public class MainActivity extends AppCompatActivity {
                 return 0;
             }
         });
-        FriendAdapter adapter = new FriendAdapter(MainActivity.this, R.layout.friend_list, friendList);
+        UserAdapter adapter = new UserAdapter(MainActivity.this, R.layout.friend_list, friendList);
         ListView listView = (ListView) findViewById(R.id.friend_list_view);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Friend friend = friendList.get(position);
+                User friend = friendList.get(position);
                 Intent intent = new Intent(MainActivity.this, FriendProfileActivity.class);
                 intent.putExtra("selected_friend", friend);
                 startActivity(intent);
@@ -68,21 +68,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void initFriends() {
         for (int i = 0; i < 5; i++) {
-            Friend a = new Friend("A", R.drawable.profile);
+            User a = new User("A", R.drawable.profile);
             friendList.add(a);
-            Friend b = new Friend("B", R.drawable.profile);
+            User b = new User("B", R.drawable.profile);
             friendList.add(b);
-            Friend c = new Friend("C", R.drawable.profile);
+            User c = new User("C", R.drawable.profile);
             friendList.add(c);
-            Friend d = new Friend("D", R.drawable.profile);
+            User d = new User("D", R.drawable.profile);
             friendList.add(d);
-            Friend e = new Friend("E", R.drawable.profile);
+            User e = new User("E", R.drawable.profile);
             friendList.add(e);
-            Friend f = new Friend("F", R.drawable.profile);
+            User f = new User("F", R.drawable.profile);
             friendList.add(f);
-            Friend g = new Friend("G", R.drawable.profile);
+            User g = new User("G", R.drawable.profile);
             friendList.add(g);
-            Friend h = new Friend("H", R.drawable.profile);
+            User h = new User("H", R.drawable.profile);
             friendList.add(h);
         }
     }

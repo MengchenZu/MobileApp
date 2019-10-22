@@ -10,36 +10,36 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class FriendAdapter extends ArrayAdapter<Friend> {
+public class UserAdapter extends ArrayAdapter<User> {
     private int resourceId;
 
-    public FriendAdapter(Context context, int textViewResourceId, List<Friend> objects) {
+    public UserAdapter(Context context, int textViewResourceId, List<User> objects) {
         super(context, textViewResourceId, objects);
         resourceId = textViewResourceId;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Friend friend = getItem(position);
+        User user = getItem(position);
         View view;
         ViewHolder viewHolder;
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
-            viewHolder.friendImage = (ImageView) view.findViewById(R.id.friend_image);
-            viewHolder.friendName = (TextView) view.findViewById(R.id.friend_name);
+            viewHolder.userAvatar = (ImageView) view.findViewById(R.id.friend_image);
+            viewHolder.userName = (TextView) view.findViewById(R.id.friend_name);
             view.setTag(viewHolder);
         } else {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.friendImage.setImageResource(friend.getImageId());
-        viewHolder.friendName.setText(friend.getName());
+        viewHolder.userAvatar.setImageResource(user.getAvatar());
+        viewHolder.userName.setText(user.getName());
         return view;
     }
 
     class ViewHolder {
-        ImageView friendImage;
-        TextView friendName;
+        ImageView userAvatar;
+        TextView userName;
     }
 }
