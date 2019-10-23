@@ -12,12 +12,18 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+<<<<<<< HEAD
         android:theme="@style/AppTheme">
         <activity android:name=".MyProfileActivity"></activity>
         <activity android:name=".FriendListActivity" />
         <activity android:name=".FriendProfileActivity" />
         <activity android:name=".AddFriendActivity" />
         <activity android:name=".StreetViewActivity" />
+=======
+        android:theme="@style/AppTheme"
+        android:networkSecurityConfig="@xml/network_security_config">
+        <activity android:name=".StreetViewActivity"></activity>
+>>>>>>> 4f54a3659e589bfb65dbd9ea38a386cb8641459b
         <activity android:name=".MapsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,4 +47,10 @@
             android:value="@string/google_maps_key" />
     </application>
 
+<<<<<<< HEAD
+=======
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+>>>>>>> 4f54a3659e589bfb65dbd9ea38a386cb8641459b
 </manifest>
