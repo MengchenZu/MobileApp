@@ -10,46 +10,32 @@
         android:layout_weight="2"/>
 
     <ImageView
-        android:id="@+id/my_profile_avatar"
+        android:id="@+id/edit_profile_avatar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
         android:layout_gravity="center"/>
 
-    <TextView
-        android:id="@+id/my_profile_id"
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/edit_profile_username"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="24sp"/>
+        android:layout_gravity="center"
+        android:hint="Enter new username"/>
 
-    <TextView
-        android:id="@+id/my_profile_username"
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/edit_profile_info"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="24sp"/>
-
-    <TextView
-        android:id="@+id/my_profile_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:textSize="24sp"/>
-
-    <Spinner
-        android:id="@+id/state_menu"
-        android:entries="@array/state_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:hint="Enter new about information"/>
 
     <Button
-        android:id="@+id/edit_profile_button"
+        android:id="@+id/confirm_profile_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:text="Confirm"
         android:layout_marginTop="10dp"/>
 
     <TextView

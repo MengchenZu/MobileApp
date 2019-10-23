@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.mobileapp.models.User;
 import com.example.mobileapp.models.UserState;
+import com.example.mobileapp.utilities.ApiHelper;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -34,6 +35,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONObject;
+
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Timer;
@@ -42,11 +45,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     public static final LatLng DEFAULT_LOCATION = new LatLng(-37.814, 144.96332); // melbourne
-    public User currentUser = new User("userA", "nameA", 3, "I'm ze 1st");
-    public UserState currentState = new UserState("userA", -37.814, 144.96332,2);
+    public User currentUser;
+    public UserState currentState = new UserState("userA", -37.814, 144.96332,2);;
     private Circle circle;
     private LocationManager locationManager;
     private Timer updateTimer = new Timer();
+    private String sessionkey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        Intent previous_intent = getIntent();
+        sessionkey = previous_intent.getStringExtra("sessionkey");
+        try {
+            JSONObject self = (new JSONObject(ApiHelper.self(sessionkey))).getJSONObject("self");
+            currentUser = User.fromJsonObj(self);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 
@@ -166,12 +179,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void onClick_btnList(android.view.View v) {
         Intent intent = new Intent(MapsActivity.this, FriendListActivity.class);
+        intent.putExtra("sessionkey", sessionkey);
         startActivity(intent);
     }
 
     public void onClick_btnMe(android.view.View v) {
         Intent intent = new Intent(MapsActivity.this, MyProfileActivity.class);
-        intent.putExtra("currentUser", currentUser);
+        intent.putExtra("sessionkey", sessionkey);
         intent.putExtra("currentState", currentState);
         startActivity(intent);
     }
