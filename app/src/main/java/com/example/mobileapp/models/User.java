@@ -23,12 +23,32 @@ public class User implements Serializable {
         this.info = info;
     }
 
+    public String getLoginId() {
+        return this.loginId;
+    }
+
     public String getName() {
         return this.name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getAvatar() {
         return this.avatar;
+    }
+
+    public void setAvatar(int avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getInfo() {
+        return this.info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public static User fromJsonObj(JSONObject obj) throws JSONException {
