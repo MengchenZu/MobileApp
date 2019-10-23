@@ -5,5 +5,6 @@
     <string name="id">ID: </string>
     <string name="username">Username: </string>
     <string name="info">About: </string>
+    <string name="edit_profile">Edit Profile</string>
 
 </resources>

@@ -170,7 +170,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void onClick_btnMe(android.view.View v) {
-        Intent intent = new Intent(MapsActivity.this, FriendProfileActivity.class);
+        Intent intent = new Intent(MapsActivity.this, MyProfileActivity.class);
         intent.putExtra("currentUser", currentUser);
         intent.putExtra("currentState", currentState);
         startActivity(intent);

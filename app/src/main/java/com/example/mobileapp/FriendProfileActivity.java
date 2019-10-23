@@ -1,6 +1,7 @@
 package com.example.mobileapp;
 
 import androidx.annotation.StringRes;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -16,6 +17,10 @@ public class FriendProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_profile);
+        ActionBar actionbar = getSupportActionBar();
+        if (actionbar != null) {
+            actionbar.hide();
+        }
         Intent previous_intent = getIntent();
         User friend = (User) previous_intent.getSerializableExtra("selected_friend");
         ImageView profile_image = (ImageView) findViewById(R.id.friend_profile_avatar);
