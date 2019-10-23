@@ -3,7 +3,9 @@ package com.example.mobileapp.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class UserState {
+import java.io.Serializable;
+
+public class UserState implements Serializable {
     public String loginId;
     public double lat;
     public double lng;

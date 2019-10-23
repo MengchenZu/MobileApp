@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,6 +22,7 @@ import android.location.LocationManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.content.Context;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.mobileapp.models.User;
@@ -167,9 +169,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.animateCamera(CameraUpdateFactory.newLatLng(currentState == null? DEFAULT_LOCATION: new LatLng(currentState.lat, currentState.lng)));
     }
 
-    public void onClick_btnSv(android.view.View v){
+    public void onClick_btnSv(android.view.View v) {
         LayoutInflater inflater = getLayoutInflater();
         setContentView(inflater.inflate(R.layout.activity_street_view, null));
+    }
+
+    public void onClick_btnList(android.view.View v) {
+        Intent intent = new Intent(MapsActivity.this, FriendListActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClick_btnMe(android.view.View v) {
+        Intent intent = new Intent(MapsActivity.this, FriendProfileActivity.class);
+        intent.putExtra("currentUser", currentUser);
+        intent.putExtra("currentState", currentState);
+        startActivity(intent);
     }
 
     private void updateLastLocation(){

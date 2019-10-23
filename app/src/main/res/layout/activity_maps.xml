@@ -24,6 +24,7 @@
         android:layout_marginLeft="20dp"
         android:textStyle="bold"
         android:textSize="24sp"
+        android:onClick="onClick_btnList"
         android:text="≡"
         android:background="@drawable/round_button"
         android:textColor="#CCF5FBFF"

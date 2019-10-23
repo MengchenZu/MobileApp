@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">MobileApp</string>
     <string name="title_activity_maps">Map</string>
+    <string name="show_location">Show Location</string>
+    <string name="id">ID: </string>
+    <string name="username">Username: </string>
+    <string name="info">About: </string>
+
 </resources>
