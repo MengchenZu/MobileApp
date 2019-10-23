@@ -6,14 +6,14 @@
     tools:context=".MapsActivity"
     tools:layout="@layout/activity_maps"
     tools:showIn="@layout/activity_maps">
-<fragment
-    xmlns:map="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MapsActivity"
-    tools:layout="@layout/activity_maps" />
+    <fragment
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MapsActivity"
+        tools:layout="@layout/activity_maps" />
 
     <Button
         android:id="@+id/btnList"
@@ -24,11 +24,11 @@
         android:layout_marginLeft="20dp"
         android:textStyle="bold"
         android:textSize="24sp"
-        android:onClick="onClick_btnList"
         android:text="≡"
         android:background="@drawable/round_button"
         android:textColor="#CCF5FBFF"
-        android:layout_marginStart="20dp" />
+        android:layout_marginStart="20dp"
+        android:onClick="onClick_btnList"/>
 
 
     <Button
@@ -56,7 +56,8 @@
         android:text="｡◕‿◕｡"
         android:background="@drawable/round_button"
         android:textColor="#CCF5FBFF"
-        android:layout_marginEnd="20dp" />
+        android:layout_marginEnd="20dp"
+        android:onClick="onClick_btnMe"/>
 
 
     <Button

@@ -1,32 +1,25 @@
 package com.example.mobileapp;
 
-import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.location.LocationManager;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
-import android.util.Log;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.content.Context;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.mobileapp.models.User;
-import com.google.android.gms.maps.CameraUpdate;
+import com.example.mobileapp.models.UserState;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -40,20 +33,14 @@ import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.example.mobileapp.utilities.*;
-import com.example.mobileapp.models.*;
 
-import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {    private GoogleMap mMap;
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    private GoogleMap mMap;
     public static final LatLng DEFAULT_LOCATION = new LatLng(-37.814, 144.96332); // melbourne
     public User currentUser = new User("userA", "nameA", 3, "I'm ze 1st");
     public UserState currentState = new UserState("userA", -37.814, 144.96332,2);
@@ -71,6 +58,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -82,10 +70,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
 
+        // Add a marker in Sydney and move the camera
         mMap = googleMap;
         mMap.moveCamera(CameraUpdateFactory.newLatLng(DEFAULT_LOCATION));
-        // map settings
+
+
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
@@ -164,14 +155,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .title(id));
     }
 
+
     public void onClick_btnMyLoc(android.view.View v) {
         updateLastLocation();
         mMap.animateCamera(CameraUpdateFactory.newLatLng(currentState == null? DEFAULT_LOCATION: new LatLng(currentState.lat, currentState.lng)));
     }
 
     public void onClick_btnSv(android.view.View v) {
-        LayoutInflater inflater = getLayoutInflater();
-        setContentView(inflater.inflate(R.layout.activity_street_view, null));
     }
 
     public void onClick_btnList(android.view.View v) {
@@ -259,5 +249,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
-
 }
