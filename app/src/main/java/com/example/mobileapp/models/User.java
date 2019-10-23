@@ -34,4 +34,23 @@ public class User implements Serializable {
     public static User fromJsonObj(JSONObject obj) throws JSONException {
         return new User(obj.getString("loginId"), obj.getString("name"), obj.getInt("avatar"),obj.getString("info"));
     }
+
+    public boolean sameIdWith(User user2){
+        return this.loginId.equals(user2.loginId);
+    }
+
+    public boolean sameIdWith(UserState state){
+        return this.loginId.equals(state.loginId);
+    }
+
+    public boolean equals(User user2){
+        if(user2 == this){
+            return true;
+        }
+        return sameIdWith(user2) &&
+                this.name == user2.name &&
+                this.avatar == user2.avatar &&
+                this.info == user2.info;
+    }
+
 }

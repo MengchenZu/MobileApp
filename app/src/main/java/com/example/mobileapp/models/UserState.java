@@ -21,4 +21,18 @@ public class UserState implements Serializable {
     public UserState fromJsonObj(JSONObject obj) throws JSONException {
         return new UserState(obj.getString("loginId"),obj.getDouble("lat"),obj.getDouble("lng"),obj.getInt("state"));
     }
+
+    public boolean sameIdWith(UserState state2){
+        return this.loginId.equals(state2.loginId);
+    }
+
+    public boolean equals(UserState state2){
+        if(state2 == this){
+            return true;
+        }
+        return sameIdWith(state2) &&
+                this.lat == state2.lat &&
+                this.lng == state2.lng &&
+                this.state == state2.state;
+    }
 }
