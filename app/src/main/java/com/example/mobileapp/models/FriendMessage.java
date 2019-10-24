@@ -15,7 +15,7 @@ public class FriendMessage {
         this.message = message;
     }
 
-    public FriendMessage fromJsonObj(JSONObject obj) throws JSONException {
+    public static FriendMessage fromJsonObj(JSONObject obj) throws JSONException {
         return  new FriendMessage(obj.getString("loginId"),obj.getString("message"));
     }
 }

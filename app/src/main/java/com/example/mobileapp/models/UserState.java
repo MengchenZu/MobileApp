@@ -10,16 +10,18 @@ public class UserState implements Serializable {
     public double lat;
     public double lng;
     public int state;
+    public boolean online;
 
-    public UserState(String loginId, double lat, double lng, int state){
+    public UserState(String loginId, double lat, double lng, int state, boolean online){
         this.loginId = loginId;
         this.lat =lat;
         this.lng =lng;
         this.state = state;
+        this.online = online;
     }
 
-    public UserState fromJsonObj(JSONObject obj) throws JSONException {
-        return new UserState(obj.getString("loginId"),obj.getDouble("lat"),obj.getDouble("lng"),obj.getInt("state"));
+    public static UserState fromJsonObj(JSONObject obj) throws JSONException {
+        return new UserState(obj.getString("loginId"),obj.getDouble("lat"),obj.getDouble("lng"),obj.getInt("state"), obj.getBoolean("online"));
     }
 
     public boolean sameIdWith(UserState state2){
