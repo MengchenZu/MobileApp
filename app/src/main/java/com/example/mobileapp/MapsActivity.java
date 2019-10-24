@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.widget.Toast;
 
 import com.example.mobileapp.models.User;
+import com.example.mobileapp.models.UserData;
 import com.example.mobileapp.models.UserState;
 import com.example.mobileapp.utilities.ApiHelper;
 import com.google.android.gms.common.api.Api;
@@ -44,6 +45,9 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 import java.util.Timer;
+import java.util.TimerTask;
+
+import static com.example.mobileapp.models.UserData.updateFriendStates;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -67,14 +71,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         Intent previous_intent = getIntent();
         sessionkey = previous_intent.getStringExtra("sessionkey");
+        UserData.initSessionKey(null,sessionkey);
         try {
             JSONObject self = (new JSONObject(ApiHelper.self(sessionkey))).getJSONObject("self");
             currentUser = User.fromJsonObj(self);
         } catch(Exception e) {
             e.printStackTrace();
         }
-
-        updateLocationThread();
+        updateThread();
+        updateTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                UserData.getInstance().updateFriends(null);
+                UserData.getInstance().updateFriendStates(null);
+                UserData.getInstance().updateMessages(null);
+                UserData.getInstance().updateRequest(null);
+            }
+        },2000);
         showingText = false;
     }
 
@@ -326,4 +339,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
     }
 
+    private void updateThread() {
+        UserData.getInstance().updateFriends(null);
+        UserData.getInstance().updateFriendStates(null);
+        UserData.getInstance().updateMessages(null);
+        UserData.getInstance().updateRequest(null);
+    }
 }

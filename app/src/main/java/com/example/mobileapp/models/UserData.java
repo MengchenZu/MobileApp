@@ -85,11 +85,10 @@ public class UserData {
             return false;
         }
         userData.sessionKey = sessionKey;
-        updateThread();
         return true;
     }
     // instance
-    private static UserData getInstance(){
+    public static UserData getInstance(){
         return userData.sessionKey == null ? null : userData;
     }
 
@@ -277,21 +276,5 @@ public class UserData {
         }
     }
 
-    private static void updateThread() {
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    while (!this.isInterrupted()) {
-                        Thread.sleep(2000);
-                        updateFriends(null);
-                        updateFriendStates(null);
-                        updateMessages(null);
-                        updateRequest(null);
-                    }
-                } catch (InterruptedException e) {
-                }
-            }
-        };
-    }
+
 }
