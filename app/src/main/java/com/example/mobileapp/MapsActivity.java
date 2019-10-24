@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.location.Criteria;
@@ -43,6 +44,8 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -50,6 +53,7 @@ import java.util.TimerTask;
 import static com.example.mobileapp.models.UserData.updateFriendStates;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+    private HashMap<String, Marker> markers = new HashMap<>();
 
     private GoogleMap mMap;
     public static final LatLng DEFAULT_LOCATION = new LatLng(-37.814, 144.96332); // melbourne
@@ -132,7 +136,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //                updateInformation();
 //            }
 //        }, 3000);
-        sampleMarker();
+//        sampleMarker();
+
+        updateMarkers();
     }
 
     public Bitmap DownloadImg(){
@@ -284,8 +290,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void sampleMarker(){
-
-        addCircle();
+//        addCircle();
         final Bitmap[] icon = new Bitmap[2];
         Thread th = new Thread(new Runnable() {
             public void run() {
@@ -307,10 +312,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .title("your friend")
                 .icon(BitmapDescriptorFactory.fromBitmap(icon[0]))
                 .position(DEFAULT_LOCATION));
-        GroundOverlayOptions newarkMap = new GroundOverlayOptions()
-                .image(BitmapDescriptorFactory.fromBitmap(icon[0]))
-                .position(DEFAULT_LOCATION, 123);
-        mMap.addGroundOverlay(newarkMap);
+//        GroundOverlayOptions newarkMap = new GroundOverlayOptions()
+//                .image(BitmapDescriptorFactory.fromBitmap(icon[0]))
+//                .position(DEFAULT_LOCATION, 123);
+//        mMap.addGroundOverlay(newarkMap);
         beatMarker(marker, BitmapDescriptorFactory.fromBitmap(icon[0]), BitmapDescriptorFactory.fromBitmap(icon[1]));
     }
 
@@ -346,4 +351,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         UserData.getInstance().updateMessages(null);
         UserData.getInstance().updateRequest(null);
     }
+
+    private void updateMarkers(){
+        final Handler handler = new Handler();
+        handler.post(new Runnable() {
+            long elapsed;
+            @Override
+            public void run() {
+                Collection<User> users = UserData.getInstance().getFriends();
+                for (User usr : users){
+                    if(markers.containsKey(usr.loginId)){
+                        updateUserMarker(markers.get(usr.loginId), UserData.getInstance().getState(usr.loginId));
+                    }
+                    else{
+                        markers.put(usr.loginId,getUserMarker(usr,UserData.getInstance().getState(usr.loginId)));
+                    }
+                }
+                handler.postDelayed(this, 500);
+            }
+        });
+    }
+
+    private Marker getUserMarker(User user, UserState userState){
+
+        Bitmap bmp= BitmapFactory.decodeResource(getResources(), user.avatar);
+        BitmapDescriptor bd = BitmapDescriptorFactory.fromResource(user.avatar);
+        return mMap.addMarker(new MarkerOptions()
+                .title(user.name)
+                .icon(bd)
+                .position(new LatLng(userState.lat, userState.lng)));
+    }
+
+    private void updateUserMarker(Marker marker, UserState userState){
+        marker.setPosition(new LatLng(userState.lat, userState.lng));
+    }
+
 }
