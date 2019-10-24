@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.mobileapp.models.User;
 import com.example.mobileapp.models.UserState;
 import com.example.mobileapp.utilities.ApiHelper;
+import com.google.android.gms.common.api.Api;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -232,6 +233,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             {
                 currentState.lat = loc.getLatitude();
                 currentState.lng =loc.getLongitude();
+                ApiHelper.updateState(sessionkey, currentState.lat, currentState.lng, currentState.state);
                 return;
             }
             else
