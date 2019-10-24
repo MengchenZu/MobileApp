@@ -60,7 +60,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     public static final LatLng DEFAULT_LOCATION = new LatLng(-37.814, 144.96332); // melbourne
     public User currentUser;
-    public UserState currentState = new UserState("userA", -37.814, 144.96332,2, true);
+    public UserState currentState;
     private Circle circle;
     private LocationManager locationManager;
     private Timer updateTimer = new Timer();
@@ -78,22 +78,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Intent previous_intent = getIntent();
         sessionkey = previous_intent.getStringExtra("sessionkey");
         UserData.initSessionKey(null, sessionkey);
-        try {
-            JSONObject self = (new JSONObject(ApiHelper.self(sessionkey))).getJSONObject("self");
-            currentUser = User.fromJsonObj(self);
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
         UserData.getInstance().updateSelfProfile(null);
+        currentUser = UserData.getInstance().getCurrentUser();
+        currentState = new UserState(currentUser.loginId, -37.814, 144.96332,0, true);
+        updateLastLocation();
+        UserData.getInstance().setCurrentUserState(currentState);
+//        try {
+//            JSONObject self = (new JSONObject(ApiHelper.self(sessionkey))).getJSONObject("self");
+//            currentUser = User.fromJsonObj(self);
+//        } catch(Exception e) {
+//            e.printStackTrace();
+//        }
         updateThread();
         updateTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                UserData.getInstance().updateSelfProfile(MapsActivity.this);
-                UserData.getInstance().updateFriends(MapsActivity.this);
-                UserData.getInstance().updateFriendStates(MapsActivity.this);
-                UserData.getInstance().updateMessages(MapsActivity.this);
-                UserData.getInstance().updateRequest(MapsActivity.this);
+                UserData.getInstance().updateSelfProfile(null);
+                UserData.getInstance().updateFriends(null);
+                UserData.getInstance().updateFriendStates(null);
+                UserData.getInstance().updateMessages(null);
+                UserData.getInstance().updateRequest(null);
+                updateLastLocation();
+                UserData.updateSelfState(null,currentState);
                 Log.d("map:","tick");
             }
         },0,2000);
