@@ -26,7 +26,7 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         Intent previous_intent = getIntent();
-        user = (User) previous_intent.getSerializableExtra("currentUser");
+        //user = (User) previous_intent.getSerializableExtra("currentUser");
         sessionkey = previous_intent.getStringExtra("sessionkey");
 
         edit_username = (EditText) findViewById(R.id.edit_profile_username);

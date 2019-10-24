@@ -82,6 +82,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         updateTimer.schedule(new TimerTask() {
             @Override
             public void run() {
+                UserData.getInstance().updateSelfProfile(null);
                 UserData.getInstance().updateFriends(null);
                 UserData.getInstance().updateFriendStates(null);
                 UserData.getInstance().updateMessages(null);
