@@ -4,6 +4,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -49,6 +50,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import android.util.Log;
 
 import static com.example.mobileapp.models.UserData.updateFriendStates;
 
@@ -84,16 +86,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         UserData.getInstance().updateSelfProfile(null);
         updateThread();
-        updateTimer.schedule(new TimerTask() {
+        updateTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                UserData.getInstance().updateSelfProfile(null);
-                UserData.getInstance().updateFriends(null);
-                UserData.getInstance().updateFriendStates(null);
-                UserData.getInstance().updateMessages(null);
-                UserData.getInstance().updateRequest(null);
+                UserData.getInstance().updateSelfProfile(MapsActivity.this);
+                UserData.getInstance().updateFriends(MapsActivity.this);
+                UserData.getInstance().updateFriendStates(MapsActivity.this);
+                UserData.getInstance().updateMessages(MapsActivity.this);
+                UserData.getInstance().updateRequest(MapsActivity.this);
+                Log.d("map:","tick");
             }
-        },2000);
+        },0,2000);
         showingText = false;
     }
 
@@ -108,14 +111,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        updateLastLocation();
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
         mMap = googleMap;
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(DEFAULT_LOCATION));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(DEFAULT_LOCATION));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(currentState.lat, currentState.lng)));
 
-
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
         uiSettings.setCompassEnabled(true);
