@@ -154,7 +154,7 @@ public class UserData {
     }
     // updateMessages
     public boolean updateMessages(Context context){
-
+        return true;
     }
 
     // getter
