@@ -27,6 +27,7 @@ import com.example.mobileapp.models.UserData;
 import com.example.mobileapp.models.UserState;
 import com.example.mobileapp.utilities.ApiHelper;
 import com.google.android.gms.common.api.Api;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -40,6 +41,7 @@ import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.Task;
 
 import org.json.JSONObject;
 
@@ -53,6 +55,7 @@ import java.util.TimerTask;
 import android.util.Log;
 
 import static com.example.mobileapp.models.UserData.updateFriendStates;
+//import com.google.android.gms.location.LocationListener;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     public static MapsActivity instance;
@@ -86,13 +89,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         currentState = new UserState(currentUser.loginId, -37.814, 144.96332,0, true);
         updateLastLocation();
         UserData.getInstance().setCurrentUserState(currentState);
-//        try {
-//            JSONObject self = (new JSONObject(ApiHelper.self(sessionkey))).getJSONObject("self");
-//            currentUser = User.fromJsonObj(self);
-//        } catch(Exception e) {
-//            e.printStackTrace();
-//        }
         updateThread();
+        // update data
         updateTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -123,12 +121,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         updateLastLocation();
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        mMap = googleMap;
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(DEFAULT_LOCATION));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(currentState.lat, currentState.lng)));
-
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
         uiSettings.setCompassEnabled(true);
@@ -164,6 +156,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
         updateMarkers();
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentState.lat, currentState.lng),12));
     }
 
     public Bitmap DownloadImg(){
@@ -224,7 +218,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void onClick_btnMyLoc(android.view.View v) {
         updateLastLocation();
-        mMap.animateCamera(CameraUpdateFactory.newLatLng(currentState == null? DEFAULT_LOCATION: new LatLng(currentState.lat, currentState.lng)));
+        if (currentState!=null){
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(currentState.lat, currentState.lng)));
+        }
     }
 
     public void onClick_btnSv(android.view.View v) {
@@ -274,22 +270,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void updateLastLocation(){
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        criteria.setBearingRequired(true);
-        criteria.setHorizontalAccuracy(Criteria.ACCURACY_HIGH);
-        criteria.setVerticalAccuracy(Criteria.ACCURACY_HIGH);
+
         if (locationManager!=null && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            List<String> providers = locationManager.getProviders(criteria,true);
+
+            // LocationServices
+            Task<Location> locTask = LocationServices.getFusedLocationProviderClient(this).getLastLocation();
+            locTask.addOnCompleteListener((Task<Location> t)->{
+                Location loc = t.getResult();
+                currentState.lat = loc.getLatitude();
+                currentState.lng = loc.getLongitude();
+            });
+
+
+            // location Providers
+            List<String> providers = locationManager.getProviders(true);
             Location loc = null;
             for(String provider: providers){
                 loc = loc == null? locationManager.getLastKnownLocation(provider) :loc;
             }
-//            Location loc= locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//            loc = loc == null? locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) :loc;
-//            loc = loc == null? locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER) :loc;
-//            loc = loc == null? locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER) :loc;
             if (loc !=null)
             {
                 currentState.lat = loc.getLatitude();
@@ -300,11 +299,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             else
             {
                 // no loc data
-                if(!showingText) {
-                    showingText = true;
-                    Toast.makeText(this, "Your location could not be determined",
-                            Toast.LENGTH_SHORT).show();
-                }
+//                if(!showingText) {
+//                    showingText = true;
+//                    Toast.makeText(this, "Your location could not be determined",
+//                            Toast.LENGTH_SHORT).show();
+//                }
                 return;
             }
         } else {

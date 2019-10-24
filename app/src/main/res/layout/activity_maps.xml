@@ -32,6 +32,19 @@
 
 
     <Button
+        android:id="@+id/btnMyLoc"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/round_button"
+        android:onClick="onClick_btnMyLoc"
+        android:text="⊙"
+        android:textColor="#CCF5FBFF"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <Button
         android:id="@+id/btnMe"
         android:layout_width="60dp"
         android:layout_height="60dp"
