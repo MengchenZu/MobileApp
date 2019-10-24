@@ -152,9 +152,23 @@ public class UserData {
             }
         });
     }
+
     // updateMessages
     public boolean updateMessages(Context context){
-
+        String strResult =  ApiHelper.getMessages(sessionKey);
+        return  processResult(context, strResult, (JSONObject objResult)->{
+            try {
+                JSONArray messagesArr = objResult.getJSONArray("messages");
+                for (int i = 0; i < messagesArr.length(); i++) {
+                    FriendMessage message = FriendMessage.fromJsonObj(messagesArr.getJSONObject(i));
+                    messages.put(message.loginId, message.message);
+                }
+                return true;
+            }catch (Exception e){
+                showInfo(context,"Unable to read the result returned by the server");
+                return false;
+            }
+        });
     }
 
     // getter
