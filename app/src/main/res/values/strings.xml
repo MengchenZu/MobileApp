@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">MobileApp</string>
+    <string name="app_name">Mobile</string>
+    <string name="show_location">Show Location</string>
 </resources>
