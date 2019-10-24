@@ -130,7 +130,7 @@ public class UserData {
         String strResult =  ApiHelper.friendStates(userData.sessionKey);
         return  processResult(context, strResult, (JSONObject objResult)->{
             try {
-                JSONArray statesArr = objResult.getJSONArray("friends");
+                JSONArray statesArr = objResult.getJSONArray("states");
                 for (int i = 0; i < statesArr.length(); i++) {
                     UserState state = UserState.fromJsonObj(statesArr.getJSONObject(i));
                     userData.friendStates.put(state.loginId, state);
@@ -218,6 +218,10 @@ public class UserData {
 
     public void clear(){
         userData = new UserData();
+    }
+
+    public String getSessionKey(){
+        return userData.sessionKey;
     }
 
     // setter
