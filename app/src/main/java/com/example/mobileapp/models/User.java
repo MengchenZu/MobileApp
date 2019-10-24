@@ -56,6 +56,27 @@ public class User implements Serializable {
     public static User fromJsonObj(JSONObject obj) throws JSONException {
         int avatar = obj.getInt("avatar");
         switch (avatar) {
+            case 1:
+                avatar = R.drawable.one;
+                break;
+            case 2:
+                avatar = R.drawable.two;
+                break;
+            case 3:
+                avatar = R.drawable.three;
+                break;
+            case 4:
+                avatar = R.drawable.four;
+                break;
+            case 5:
+                avatar = R.drawable.five;
+                break;
+            case 6:
+                avatar = R.drawable.six;
+                break;
+            case 7:
+                avatar = R.drawable.seven;
+                break;
             default:
                 avatar = R.drawable.profile;
                 break;

@@ -9,8 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mobileapp.models.User;
+import com.example.mobileapp.models.UserData;
+import com.example.mobileapp.utilities.ApiHelper;
+
+import org.json.JSONObject;
 
 public class SearchProfileActivity extends AppCompatActivity {
 
@@ -41,7 +46,24 @@ public class SearchProfileActivity extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                try {
+                    String sessionkey = UserData.getInstance().getSessionKey();
+                    String toId = friend.loginId;
+                    String message = "I'm " + UserData.getInstance().getCurrentUser().getName();
+                    JSONObject add_feedback = new JSONObject(ApiHelper.addFriend(sessionkey, toId, message));
+                    Boolean add_state = add_feedback.getBoolean("success");
+                    if (add_state) {
+                        Intent intent = new Intent();
+                        intent.putExtra("add", "add_successful");
+                        setResult(333, intent);
+                        finish();
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "Error, please try again.", Toast.LENGTH_SHORT).show();
+                    }
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
