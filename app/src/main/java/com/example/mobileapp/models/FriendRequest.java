@@ -12,7 +12,7 @@ public class FriendRequest {
         this.message = message;
     }
 
-    public FriendRequest fromJsonObj(JSONObject obj) throws JSONException {
+    public static FriendRequest fromJsonObj(JSONObject obj) throws JSONException {
         User user = User.fromJsonObj(obj);
         return new FriendRequest(user, obj.getString("message"));
     }

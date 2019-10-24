@@ -87,7 +87,7 @@ public class UserData {
 
     // update
 
-    public boolean updateSelf(Context context){
+    public boolean updateSelfProfile(Context context){
         String strResult =  ApiHelper.self(sessionKey);
         return processResult(context, strResult, (JSONObject objResult) -> {
             try {
@@ -108,7 +108,7 @@ public class UserData {
                 JSONArray friendsArr = objResult.getJSONArray("friends");
                 for (int i = 0; i < friendsArr.length(); i++) {
                     User friend = User.fromJsonObj(friendsArr.getJSONObject(i));
-                    friends.put(friend.loginId, friend);
+                    userData.friends.put(friend.loginId, friend);
                 }
                 return true;
             }catch (Exception e){
@@ -119,8 +119,43 @@ public class UserData {
     }
 
     // updateFriendStates
+    public boolean updateFriendStates(Context context){
+        String strResult =  ApiHelper.friendStates(sessionKey);
+        return  processResult(context, strResult, (JSONObject objResult)->{
+            try {
+                JSONArray statesArr = objResult.getJSONArray("friends");
+                for (int i = 0; i < statesArr.length(); i++) {
+                    UserState state = UserState.fromJsonObj(statesArr.getJSONObject(i));
+                    userData.friendStates.put(state.loginId, state);
+                }
+                return true;
+            }catch (Exception e){
+                showInfo(context,"Unable to read the result returned by the server");
+                return false;
+            }
+        });
+    }
     // updateRequests
+    public boolean updateRequest(Context context){
+        String strResult =  ApiHelper.getRequests(sessionKey);
+        return processResult(context, strResult, (JSONObject objResult)->{
+            try {
+                JSONArray requestArr = objResult.getJSONArray("requests");
+                for (int i = 0; i < requestArr.length(); i++) {
+                    FriendRequest req = FriendRequest.fromJsonObj(requestArr.getJSONObject(i));
+                    userData.requests.add(req);
+                }
+                return true;
+            }catch (Exception e){
+                showInfo(context,"Unable to read the result returned by the server");
+                return false;
+            }
+        });
+    }
     // updateMessages
+    public boolean updateMessages(Context context){
+
+    }
 
     // getter
 
