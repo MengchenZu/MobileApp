@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.mobileapp.models.User;
+import com.example.mobileapp.models.UserData;
 import com.example.mobileapp.utilities.ApiHelper;
 
 import org.json.JSONObject;
@@ -26,6 +27,7 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         Intent previous_intent = getIntent();
+        user = UserData.getInstance().getCurrentUser();
         //user = (User) previous_intent.getSerializableExtra("currentUser");
         sessionkey = previous_intent.getStringExtra("sessionkey");
 
@@ -55,6 +57,7 @@ public class EditProfileActivity extends AppCompatActivity {
                             finish();
                         }
                         else {
+                            System.out.println(sessionkey);
                             Toast.makeText(EditProfileActivity.this, "Update failed, please try again", Toast.LENGTH_SHORT).show();
                         }
 

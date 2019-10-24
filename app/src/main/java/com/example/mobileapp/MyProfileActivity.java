@@ -36,8 +36,8 @@ public class MyProfileActivity extends AppCompatActivity {
         }
         user = UserData.getInstance().getCurrentUser();
         Intent previous_intent = getIntent();
-        /**sessionkey = previous_intent.getStringExtra("sessionkey");
-        try {
+        sessionkey = previous_intent.getStringExtra("sessionkey");
+        /**try {
             JSONObject self = (new JSONObject(ApiHelper.self(sessionkey))).getJSONObject("self");
             user = User.fromJsonObj(self);
         } catch(Exception e) {
@@ -61,7 +61,7 @@ public class MyProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MyProfileActivity.this, EditProfileActivity.class);
-                intent.putExtra("currentUser", user);
+                //intent.putExtra("currentUser", user);
                 intent.putExtra("sessionkey", sessionkey);
                 startActivityForResult(intent, 1);
             }
