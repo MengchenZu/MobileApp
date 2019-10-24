@@ -89,7 +89,7 @@ public class UserData {
         return true;
     }
     // instance
-    private static UserData getInstance(){
+    public static UserData getInstance(){
         return userData.sessionKey == null ? null : userData;
     }
 

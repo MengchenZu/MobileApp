@@ -11,11 +11,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import com.example.mobileapp.models.User;
+import com.example.mobileapp.models.UserData;
 import com.example.mobileapp.utilities.ApiHelper;
 import com.example.mobileapp.utilities.UserAdapter;
 
@@ -80,14 +82,16 @@ public class FriendListActivity extends AppCompatActivity {
 
     private void initFriends() {
         try {
-            JSONObject friends_feedback = new JSONObject(ApiHelper.friends(sessionkey));
-            JSONArray friends = friends_feedback.getJSONArray("friends");
-            for (int i = 0; i < friends.length(); i++) {
+            Collection<User> friends = UserData.getInstance().getFriends();
+            //JSONObject friends_feedback = new JSONObject(ApiHelper.friends(sessionkey));
+            //JSONArray friends = friends_feedback.getJSONArray("friends");
+            friendList.addAll(friends);
+            /**for (int i = 0; i < friends.length(); i++) {
                 JSONObject friend = friends.getJSONObject(i);
                 User user = User.fromJsonObj(friend);
                 //User user = new User(friend.getString("loginId"), friend.getString("name"), R.drawable.profile, friend.getString("info"));
                 friendList.add(user);
-            }
+            }*/
         } catch(Exception e) {
             e.printStackTrace();
         }
