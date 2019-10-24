@@ -82,6 +82,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } catch(Exception e) {
             e.printStackTrace();
         }
+        UserData.getInstance().updateSelfProfile(null);
         updateThread();
         updateTimer.schedule(new TimerTask() {
             @Override
