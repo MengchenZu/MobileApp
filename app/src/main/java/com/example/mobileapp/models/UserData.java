@@ -85,6 +85,13 @@ public class UserData {
             return false;
         }
         userData.sessionKey = sessionKey;
+
+        userData.currentUser = null;
+        userData.currentUserState = null;
+        userData.friends.clear();
+        userData.friendStates.clear();
+        userData.requests.clear();
+        userData.messages.clear();
         return true;
     }
     // instance
