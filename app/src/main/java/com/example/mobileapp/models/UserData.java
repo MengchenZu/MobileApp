@@ -106,9 +106,7 @@ public class UserData {
         return processResult(context, strResult, (JSONObject objResult) -> {
             try {
                 JSONObject selfObj = objResult.getJSONObject("self");
-                synchronized (userData.currentUser){
-                    userData.currentUser =  User.fromJsonObj(selfObj);
-                }
+                userData.currentUser =  User.fromJsonObj(selfObj);
                 return true;
             }catch (Exception e){
                 showInfo(context,"Unable to read the result returned by the server");
@@ -124,9 +122,7 @@ public class UserData {
                 JSONArray friendsArr = objResult.getJSONArray("friends");
                 for (int i = 0; i < friendsArr.length(); i++) {
                     User friend = User.fromJsonObj(friendsArr.getJSONObject(i));
-                    synchronized (userData.friends){
-                        userData.friends.put(friend.loginId, friend);
-                    }
+                    userData.friends.put(friend.loginId, friend);
                 }
                 return true;
             }catch (Exception e){
@@ -144,9 +140,7 @@ public class UserData {
                 JSONArray statesArr = objResult.getJSONArray("states");
                 for (int i = 0; i < statesArr.length(); i++) {
                     UserState state = UserState.fromJsonObj(statesArr.getJSONObject(i));
-                    synchronized (userData.friendStates){
-                        userData.friendStates.put(state.loginId, state);
-                    }
+                    userData.friendStates.put(state.loginId, state);
                 }
                 return true;
             }catch (Exception e){
@@ -163,9 +157,7 @@ public class UserData {
                 JSONArray requestArr = objResult.getJSONArray("requests");
                 for (int i = 0; i < requestArr.length(); i++) {
                     FriendRequest req = FriendRequest.fromJsonObj(requestArr.getJSONObject(i));
-                    synchronized (userData.requests){
-                        userData.requests.add(req);
-                    }
+                    userData.requests.add(req);
                 }
                 return true;
             }catch (Exception e){
@@ -183,9 +175,8 @@ public class UserData {
                 JSONArray messagesArr = objResult.getJSONArray("messages");
                 for (int i = 0; i < messagesArr.length(); i++) {
                     FriendMessage message = FriendMessage.fromJsonObj(messagesArr.getJSONObject(i));
-                    synchronized (userData.messages){
-                        userData.messages.put(message.loginId, message.message);
-                    }
+
+                    userData.messages.put(message.loginId, message.message);
                 }
                 return true;
             }catch (Exception e){
@@ -198,39 +189,39 @@ public class UserData {
     // getter
 
     public User getCurrentUser(){
-        return currentUser;
+        return userData.currentUser;
     }
 
     public UserState getCurrentState(){
-        return currentUserState;
+        return userData.currentUserState;
     }
 
     public User getFriend(String loginId){
-        return friends.get(loginId);
+        return userData.friends.get(loginId);
     }
 
     public Collection<User> getFriends(){
-        return friends.values();
+        return userData.friends.values();
     }
 
     public UserState getState(String loginId){
-        return friendStates.get(loginId);
+        return userData.friendStates.get(loginId);
     }
 
     public Collection<UserState> getStates(){
-        return friendStates.values();
+        return userData.friendStates.values();
     }
 
     public List<FriendRequest> getRequests(){
-        return requests;
+        return userData.requests;
     }
 
     public String getMessage(String loginId){
-        return messages.get(loginId);
+        return userData.messages.get(loginId);
     }
 
     public Collection<String> getMessages(){
-        return messages.values();
+        return userData.messages.values();
     }
 
     public void clear(){
@@ -253,7 +244,7 @@ public class UserData {
     }
 
     public void setCurrentUserState(UserState state){
-        this.currentUserState = state;
+        userData.currentUserState = state;
     }
 
     // static func
