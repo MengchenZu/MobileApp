@@ -118,7 +118,7 @@ public class SignupActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             SignupActivity.this.progressBar.setVisibility(View.INVISIBLE);
-                            SignupActivity.this.errorText.setText("Sorry, this username has been occupied. Try another one.");
+                            SignupActivity.this.errorText.setText("Sorry, this id has been occupied. Try another one.");
                         }
                     };
                     uiHandler.post(runnable_2);

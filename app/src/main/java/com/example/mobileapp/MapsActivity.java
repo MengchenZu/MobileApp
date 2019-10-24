@@ -187,7 +187,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Intent intent = new Intent(MapsActivity.this, MyProfileActivity.class);
         intent.putExtra("sessionkey", sessionkey);
         intent.putExtra("currentState", currentState);
-        startActivity(intent);
+        startActivityForResult(intent, 111);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent date) {
+        if (requestCode == 111) {
+            if (resultCode == 222) {
+                finish();
+            }
+        }
     }
 
     private void updateLastLocation(){
