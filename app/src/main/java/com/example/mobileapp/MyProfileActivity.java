@@ -80,6 +80,9 @@ public class MyProfileActivity extends AppCompatActivity {
                         Intent new_login = new Intent(MyProfileActivity.this, LoginActivity.class);
                         result.putExtra("logout", "successful");
                         setResult(222, result);
+                        MapsActivity.updateTimer.cancel();
+                        MapsActivity.updateTimer=null;
+                        MapsActivity.instance.finish();
                         finish();
                         startActivity(new_login);
                     }

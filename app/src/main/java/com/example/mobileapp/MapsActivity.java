@@ -55,6 +55,7 @@ import android.util.Log;
 import static com.example.mobileapp.models.UserData.updateFriendStates;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+    public static MapsActivity instance;
     private HashMap<String, Marker> markers = new HashMap<>();
 
     private GoogleMap mMap;
@@ -63,12 +64,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public UserState currentState;
     private Circle circle;
     private LocationManager locationManager;
-    private Timer updateTimer = new Timer();
+    public static Timer updateTimer;
     private String sessionkey;
     private boolean showingText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        updateTimer = new Timer();
+        instance = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
