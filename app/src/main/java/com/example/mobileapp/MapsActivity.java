@@ -14,6 +14,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Toast;
@@ -69,6 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             e.printStackTrace();
         }
 
+        updateLocationThread();
     }
 
 
@@ -188,6 +190,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         intent.putExtra("sessionkey", sessionkey);
         intent.putExtra("currentState", currentState);
         startActivity(intent);
+    }
+
+    private void updateLocationThread() {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (!this.isInterrupted()) {
+                        Thread.sleep(2000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                updateLastLocation();
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+
+        thread.start();
     }
 
     private void updateLastLocation(){
