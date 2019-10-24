@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
 import java.util.Timer;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -165,6 +167,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
+
     public void addMarker(String id, BitmapDescriptor icon, LatLng loc){
         // avatat, latlng
         mMap.addMarker(new MarkerOptions()
@@ -226,11 +229,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void updateLastLocation(){
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setBearingRequired(true);
+        criteria.setHorizontalAccuracy(Criteria.ACCURACY_HIGH);
+        criteria.setVerticalAccuracy(Criteria.ACCURACY_HIGH);
         if (locationManager!=null && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            Location loc= locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            loc = loc == null? locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) :loc;
-            loc = loc == null? locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER) :loc;
+            List<String> providers = locationManager.getProviders(criteria,true);
+            Location loc = null;
+            for(String provider: providers){
+                loc = loc == null? locationManager.getLastKnownLocation(provider) :loc;
+            }
+//            Location loc= locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//            loc = loc == null? locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) :loc;
+//            loc = loc == null? locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER) :loc;
+//            loc = loc == null? locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER) :loc;
             if (loc !=null)
             {
                 currentState.lat = loc.getLatitude();
@@ -303,4 +317,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
+
+    public void moveCamera(double lat, double lng){
+        moveCamera(new LatLng(lat,lng));
+    }
+
+    public void moveCamera(LatLng latLng){
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+    }
+
 }

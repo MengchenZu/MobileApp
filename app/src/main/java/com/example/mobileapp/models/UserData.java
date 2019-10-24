@@ -80,6 +80,14 @@ public class UserData {
         });
     }
 
+    public static boolean initSessionKey(Context context, String sessionKey){
+        if(sessionKey == null){
+            return false;
+        }
+        userData.sessionKey = sessionKey;
+        updateThread();
+        return true;
+    }
     // instance
     private static UserData getInstance(){
         return userData.sessionKey == null ? null : userData;
@@ -101,8 +109,8 @@ public class UserData {
         });
     }
 
-    public boolean updateFriends(Context context){
-        String strResult =  ApiHelper.friends(sessionKey);
+    public static boolean updateFriends(Context context){
+        String strResult =  ApiHelper.friends(userData.sessionKey);
         return processResult(context, strResult, (JSONObject objResult)->{
             try {
                 JSONArray friendsArr = objResult.getJSONArray("friends");
@@ -119,8 +127,8 @@ public class UserData {
     }
 
     // updateFriendStates
-    public boolean updateFriendStates(Context context){
-        String strResult =  ApiHelper.friendStates(sessionKey);
+    public static boolean updateFriendStates(Context context){
+        String strResult =  ApiHelper.friendStates(userData.sessionKey);
         return  processResult(context, strResult, (JSONObject objResult)->{
             try {
                 JSONArray statesArr = objResult.getJSONArray("friends");
@@ -136,8 +144,8 @@ public class UserData {
         });
     }
     // updateRequests
-    public boolean updateRequest(Context context){
-        String strResult =  ApiHelper.getRequests(sessionKey);
+    public static boolean updateRequest(Context context){
+        String strResult =  ApiHelper.getRequests(userData.sessionKey);
         return processResult(context, strResult, (JSONObject objResult)->{
             try {
                 JSONArray requestArr = objResult.getJSONArray("requests");
@@ -154,14 +162,14 @@ public class UserData {
     }
 
     // updateMessages
-    public boolean updateMessages(Context context){
-        String strResult =  ApiHelper.getMessages(sessionKey);
+    public static boolean updateMessages(Context context){
+        String strResult =  ApiHelper.getMessages(userData.sessionKey);
         return  processResult(context, strResult, (JSONObject objResult)->{
             try {
                 JSONArray messagesArr = objResult.getJSONArray("messages");
                 for (int i = 0; i < messagesArr.length(); i++) {
                     FriendMessage message = FriendMessage.fromJsonObj(messagesArr.getJSONObject(i));
-                    messages.put(message.loginId, message.message);
+                    userData.messages.put(message.loginId, message.message);
                 }
                 return true;
             }catch (Exception e){
@@ -269,5 +277,21 @@ public class UserData {
         }
     }
 
-
+    private static void updateThread() {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (!this.isInterrupted()) {
+                        Thread.sleep(2000);
+                        updateFriends(null);
+                        updateFriendStates(null);
+                        updateMessages(null);
+                        updateRequest(null);
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+    }
 }
