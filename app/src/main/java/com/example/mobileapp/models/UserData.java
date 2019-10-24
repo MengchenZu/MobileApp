@@ -99,7 +99,9 @@ public class UserData {
         return processResult(context, strResult, (JSONObject objResult) -> {
             try {
                 JSONObject selfObj = objResult.getJSONObject("self");
-                userData.currentUser =  User.fromJsonObj(selfObj);
+                synchronized (userData.currentUser){
+                    userData.currentUser =  User.fromJsonObj(selfObj);
+                }
                 return true;
             }catch (Exception e){
                 showInfo(context,"Unable to read the result returned by the server");
@@ -115,7 +117,9 @@ public class UserData {
                 JSONArray friendsArr = objResult.getJSONArray("friends");
                 for (int i = 0; i < friendsArr.length(); i++) {
                     User friend = User.fromJsonObj(friendsArr.getJSONObject(i));
-                    userData.friends.put(friend.loginId, friend);
+                    synchronized (userData.friends){
+                        userData.friends.put(friend.loginId, friend);
+                    }
                 }
                 return true;
             }catch (Exception e){
@@ -133,7 +137,9 @@ public class UserData {
                 JSONArray statesArr = objResult.getJSONArray("states");
                 for (int i = 0; i < statesArr.length(); i++) {
                     UserState state = UserState.fromJsonObj(statesArr.getJSONObject(i));
-                    userData.friendStates.put(state.loginId, state);
+                    synchronized (userData.friendStates){
+                        userData.friendStates.put(state.loginId, state);
+                    }
                 }
                 return true;
             }catch (Exception e){
@@ -150,7 +156,9 @@ public class UserData {
                 JSONArray requestArr = objResult.getJSONArray("requests");
                 for (int i = 0; i < requestArr.length(); i++) {
                     FriendRequest req = FriendRequest.fromJsonObj(requestArr.getJSONObject(i));
-                    userData.requests.add(req);
+                    synchronized (userData.requests){
+                        userData.requests.add(req);
+                    }
                 }
                 return true;
             }catch (Exception e){
@@ -168,7 +176,9 @@ public class UserData {
                 JSONArray messagesArr = objResult.getJSONArray("messages");
                 for (int i = 0; i < messagesArr.length(); i++) {
                     FriendMessage message = FriendMessage.fromJsonObj(messagesArr.getJSONObject(i));
-                    userData.messages.put(message.loginId, message.message);
+                    synchronized (userData.messages){
+                        userData.messages.put(message.loginId, message.message);
+                    }
                 }
                 return true;
             }catch (Exception e){
