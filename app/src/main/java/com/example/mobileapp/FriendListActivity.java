@@ -93,11 +93,75 @@ public class FriendListActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setContentView(R.layout.activity_friend_list);
+        ActionBar actionbar = getSupportActionBar();
+        if (actionbar != null) {
+            actionbar.hide();
+        }
+
+        Intent previous_intent = getIntent();
+        sessionkey = previous_intent.getStringExtra("sessionkey");
+
+        initFriends();
+        Collections.sort(friendList, new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                if (o1.getName().compareTo(o2.getName()) < 0) {
+                    return -1;
+                }
+                else if (o1.getName().compareTo(o2.getName()) > 0){
+                    return 1;
+                }
+                return 0;
+            }
+        });
+        UserAdapter adapter = new UserAdapter(FriendListActivity.this, R.layout.friend_list, friendList);
+        ListView listView = (ListView) findViewById(R.id.friend_list_view);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                User friend = friendList.get(position);
+                if(friend!=null){
+                    Intent intent = new Intent(FriendListActivity.this, FriendProfileActivity.class);
+                    intent.putExtra("selected_friend", friend);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        ImageView addFriend = (ImageView) findViewById(R.id.add_friend_button);
+        addFriend.setImageResource(R.drawable.plus_sign);
+        addFriend.setClickable(true);
+        addFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FriendListActivity.this, AddFriendActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ImageView friendRequest = (ImageView) findViewById(R.id.friend_request_button);
+        friendRequest.setImageResource(R.drawable.bell);
+        friendRequest.setClickable(true);
+        friendRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FriendListActivity.this, FriendRequestActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
     private void initFriends() {
         try {
             Collection<User> friends = UserData.getInstance().getFriends();
             //JSONObject friends_feedback = new JSONObject(ApiHelper.friends(sessionkey));
             //JSONArray friends = friends_feedback.getJSONArray("friends");
+            friendList = new ArrayList<>();
             friendList.addAll(friends);
             /**for (int i = 0; i < friends.length(); i++) {
                 JSONObject friend = friends.getJSONObject(i);

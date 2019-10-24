@@ -7,5 +7,6 @@
     <string name="info">About: </string>
     <string name="edit_profile">Edit Profile</string>
     <string name="logout">Log Out</string>
+    <string name="send_request">Send Request</string>
 
 </resources>

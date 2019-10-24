@@ -15,6 +15,9 @@ import android.content.Context;
 import com.example.mobileapp.models.FriendRequest;
 import com.example.mobileapp.models.User;
 import com.example.mobileapp.models.UserData;
+import com.example.mobileapp.utilities.ApiHelper;
+
+import org.json.JSONObject;
 
 import java.util.Map;
 import java.util.List;
@@ -60,6 +63,7 @@ public class FriendRequestActivity extends AppCompatActivity {
             User user = request.getUser();
             String message = request.getMessage();
             Map<String, Object> map = new HashMap<String, Object>();
+            map.put("id", user.getLoginId());
             map.put("image", user.getAvatar());
             map.put("name", user.getName());
             map.put("info", message);
@@ -107,9 +111,22 @@ public class FriendRequestActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    Toast.makeText(getApplicationContext(), "You have added "+ name, Toast.LENGTH_SHORT).show();
-                    requestData.remove(i);
-                    setAdapter(requestData);
+                    try {
+                        Map<String, Object> map = requestData.get(i);
+                        String id = (String) map.get("id");
+                        JSONObject process_feedback = new JSONObject(ApiHelper.processRequest(UserData.getInstance().getSessionKey(), id, true));
+                        Boolean process_state = process_feedback.getBoolean("success");
+                        if (process_state) {
+                            Toast.makeText(getApplicationContext(), "You have added " + name, Toast.LENGTH_SHORT).show();
+                            requestData.remove(i);
+                            setAdapter(requestData);
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Error, please try again.", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
 
@@ -117,9 +134,23 @@ public class FriendRequestActivity extends AppCompatActivity {
             refuseButton.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(), "Request denied.", Toast.LENGTH_SHORT).show();
-                    requestData.remove(i);
-                    setAdapter(requestData);
+
+                    try {
+                        Map<String, Object> map = requestData.get(i);
+                        String id = (String) map.get("id");
+                        JSONObject process_feedback = new JSONObject(ApiHelper.processRequest(UserData.getInstance().getSessionKey(), id, false));
+                        Boolean process_state = process_feedback.getBoolean("success");
+                        if (process_state) {
+                            Toast.makeText(getApplicationContext(), "Request denied.", Toast.LENGTH_SHORT).show();
+                            requestData.remove(i);
+                            setAdapter(requestData);
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Error, please try again.", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             return view;
