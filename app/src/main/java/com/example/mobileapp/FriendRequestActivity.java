@@ -58,8 +58,8 @@ public class FriendRequestActivity extends AppCompatActivity {
     private ArrayList<Map<String,Object>> getData() {
         ArrayList<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
         List<FriendRequest> requests = UserData.getInstance().getRequests();
-        //System.out.println("Request");
-        //System.out.println(requests);
+        System.out.println("Request");
+        System.out.println(requests);
         for (int i = 0; i < requests.size(); i++) {
             FriendRequest request = requests.get(i);
             User user = request.getUser();

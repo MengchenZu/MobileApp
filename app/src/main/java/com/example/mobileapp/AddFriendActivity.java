@@ -1,5 +1,6 @@
 package com.example.mobileapp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -42,7 +43,7 @@ public class AddFriendActivity extends AppCompatActivity {
                             User user = User.fromJsonObj(return_user);
                             Intent intent = new Intent(AddFriendActivity.this, SearchProfileActivity.class);
                             intent.putExtra("user", user);
-                            startActivity(intent);
+                            startActivityForResult(intent, 33);
                         }
                         else {
                             Toast.makeText(getApplicationContext(), "This ID does not exist.", Toast.LENGTH_SHORT).show();
@@ -56,5 +57,14 @@ public class AddFriendActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == 33) {
+            if (resultCode == 333) {
+                Toast.makeText(getApplicationContext(), "Request has been sent successfully.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
