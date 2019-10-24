@@ -91,7 +91,6 @@ public class FriendListActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
         /**for (int i = 0; i < 5; i++) {
             User a = new User("A", R.drawable.profile);
             friendList.add(a);

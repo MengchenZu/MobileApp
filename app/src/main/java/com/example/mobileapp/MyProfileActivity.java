@@ -47,13 +47,13 @@ public class MyProfileActivity extends AppCompatActivity {
         ImageView profile_image = (ImageView) findViewById(R.id.my_profile_avatar);
         profile_image.setImageResource(R.drawable.profile);
         TextView profile_id = (TextView) findViewById(R.id.my_profile_id);
-        String id_text = "ID: " + user.loginId;
+        String id_text = "ID: " + user.getLoginId();
         profile_id.setText(id_text);
         TextView profile_username = (TextView) findViewById(R.id.my_profile_username);
-        String username_text = "Username: " + user.name;
+        String username_text = "Username: " + user.getName();
         profile_username.setText(username_text);
         TextView profile_info = (TextView) findViewById(R.id.my_profile_info);
-        String info_text = "About: " + user.info;
+        String info_text = "About: " + user.getInfo();
         profile_info.setText(info_text);
         Button edit_profile = (Button) findViewById(R.id.edit_profile_button);
         edit_profile.setText(getResources().getText(R.string.edit_profile));
