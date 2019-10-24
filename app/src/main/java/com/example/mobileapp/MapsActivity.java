@@ -75,7 +75,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         Intent previous_intent = getIntent();
         sessionkey = previous_intent.getStringExtra("sessionkey");
-        UserData.initSessionKey(null,sessionkey);
+        UserData.initSessionKey(null, sessionkey);
         try {
             JSONObject self = (new JSONObject(ApiHelper.self(sessionkey))).getJSONObject("self");
             currentUser = User.fromJsonObj(self);
