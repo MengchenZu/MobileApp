@@ -78,6 +78,17 @@ public class FriendListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        ImageView friendRequest = (ImageView) findViewById(R.id.friend_request_button);
+        friendRequest.setImageResource(R.drawable.bell);
+        friendRequest.setClickable(true);
+        friendRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FriendListActivity.this, FriendRequestActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initFriends() {
