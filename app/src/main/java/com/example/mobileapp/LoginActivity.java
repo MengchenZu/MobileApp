@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.content.Intent;
 
+import com.example.mobileapp.models.UserData;
 import com.example.mobileapp.utilities.ApiHelper;
 
 import org.json.JSONObject;
@@ -89,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             //改成跳转到地图界面
+                            UserData.initSessionKey(null,sessionkey);
                             Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
                             intent.putExtra("sessionkey", sessionkey);
                             startActivity(intent);
