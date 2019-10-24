@@ -1,5 +1,7 @@
 package com.example.mobileapp.models;
 
+import com.example.mobileapp.R;
+
 import java.io.Serializable;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,7 +54,13 @@ public class User implements Serializable {
     }
 
     public static User fromJsonObj(JSONObject obj) throws JSONException {
-        return new User(obj.getString("loginId"), obj.getString("name"), obj.getInt("avatar"),obj.getString("info"));
+        int avatar = obj.getInt("avatar");
+        switch (avatar) {
+            default:
+                avatar = R.drawable.profile;
+                break;
+        }
+        return new User(obj.getString("loginId"), obj.getString("name"), avatar, obj.getString("info"));
     }
 
     public boolean sameIdWith(User user2){

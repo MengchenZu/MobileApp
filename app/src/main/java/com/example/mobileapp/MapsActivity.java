@@ -47,7 +47,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     public static final LatLng DEFAULT_LOCATION = new LatLng(-37.814, 144.96332); // melbourne
     public User currentUser;
-    public UserState currentState = new UserState("userA", -37.814, 144.96332,2);;
+    public UserState currentState = new UserState("userA", -37.814, 144.96332,2, true);;
     private Circle circle;
     private LocationManager locationManager;
     private Timer updateTimer = new Timer();

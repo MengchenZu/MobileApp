@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="state_menu">
+        <item>Unknown</item>
         <item>Home</item>
         <item>School</item>
         <item>Work</item>

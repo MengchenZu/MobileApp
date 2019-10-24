@@ -43,9 +43,8 @@ public class MyProfileActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         userState = (UserState) previous_intent.getSerializableExtra("currentState");
-
         ImageView profile_image = (ImageView) findViewById(R.id.my_profile_avatar);
-        profile_image.setImageResource(R.drawable.profile);
+        profile_image.setImageResource(user.getAvatar());
         TextView profile_id = (TextView) findViewById(R.id.my_profile_id);
         String id_text = "ID: " + user.getLoginId();
         profile_id.setText(id_text);
@@ -98,6 +97,7 @@ public class MyProfileActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String[] states = getResources().getStringArray(R.array.state_menu);
                 userState.state = position;
+                System.out.println(position);
             }
 
             @Override
