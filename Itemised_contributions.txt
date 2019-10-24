@@ -1,0 +1,16 @@
+Chenglin Jing:
+- 
+
+Jian Liu:
+- 
+
+Mengchen Zu:
+- API design
+- Version control and branches management
+- Collaborative coding
+
+Xu Chen:
+- 
+
+Zhaowei Cui:
+- 
