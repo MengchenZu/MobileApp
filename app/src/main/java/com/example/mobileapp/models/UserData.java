@@ -186,6 +186,18 @@ public class UserData {
         });
     }
 
+    // selfState
+    public static boolean updateSelfState(Context context, UserState userState){
+        if (userState!=null){
+            userData.currentUserState = userState;
+            String strResult = ApiHelper.updateState(userData.sessionKey,userState.lat,userState.lng,userState.state);
+            return processResult(context,strResult,(JSONObject objResult)-> true);
+        }else{
+            return false;
+        }
+    }
+
+
     // getter
 
     public User getCurrentUser(){
