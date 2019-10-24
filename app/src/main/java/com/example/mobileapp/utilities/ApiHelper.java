@@ -17,9 +17,6 @@ public class ApiHelper {
     private static final String BASE_URL = "http://104.207.132.11/api/mobile/";
 
     public static String generalCall(String urlStr, String[] keys, Object[] values){
-        if(!ApiHelper.checkNetwork()){
-            return null;
-        }
         try{
             StrictMode.ThreadPolicy policy = new
                     StrictMode.ThreadPolicy.Builder()
