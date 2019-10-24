@@ -20,7 +20,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Toast;
 
+import com.example.mobileapp.models.UpdateThread;
 import com.example.mobileapp.models.User;
+import com.example.mobileapp.models.UserData;
 import com.example.mobileapp.models.UserState;
 import com.example.mobileapp.utilities.ApiHelper;
 import com.google.android.gms.common.api.Api;
@@ -74,8 +76,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             e.printStackTrace();
         }
 
-        updateLocationThread();
+        // updateLocationThread();
+
         showingText = false;
+        new UpdateThread().execute();
     }
 
 
@@ -217,6 +221,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             @Override
                             public void run() {
                                 updateLastLocation();
+                                UserData.getInstance().updateFriends(null);
+                                UserData.getInstance().updateFriendStates(null);
+                                UserData.getInstance().updateMessages(null);
+                                UserData.getInstance().updateRequest(null);
                             }
                         });
                     }
