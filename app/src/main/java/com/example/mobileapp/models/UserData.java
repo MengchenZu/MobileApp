@@ -155,6 +155,7 @@ public class UserData {
         return processResult(context, strResult, (JSONObject objResult)->{
             try {
                 JSONArray requestArr = objResult.getJSONArray("requests");
+                userData.requests.clear();
                 for (int i = 0; i < requestArr.length(); i++) {
                     FriendRequest req = FriendRequest.fromJsonObj(requestArr.getJSONObject(i));
                     userData.requests.add(req);
