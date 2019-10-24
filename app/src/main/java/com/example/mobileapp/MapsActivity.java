@@ -137,7 +137,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //            }
 //        }, 3000);
 //        sampleMarker();
-
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                for (String key: markers.keySet()){
+                    if(marker.getTitle().equals(markers.get(key).getTitle())){
+                        User friend = UserData.getInstance().getFriend(key);
+                        Intent intent = new Intent(MapsActivity.this, FriendProfileActivity.class);
+                        intent.putExtra("selected_friend", friend);
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
         updateMarkers();
     }
 
@@ -376,14 +388,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Bitmap bmp= BitmapFactory.decodeResource(getResources(), user.avatar);
         BitmapDescriptor bd = BitmapDescriptorFactory.fromResource(user.avatar);
-        return mMap.addMarker(new MarkerOptions()
+        Matrix matrix = new Matrix();
+        matrix.postScale(.95f, .95f);
+        Bitmap bmpB = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(),bmp.getHeight(),matrix, true);
+        BitmapDescriptor bdb = BitmapDescriptorFactory.fromBitmap(bmpB);
+        Marker marker =  mMap.addMarker(new MarkerOptions()
                 .title(user.name)
                 .icon(bd)
                 .position(new LatLng(userState.lat, userState.lng)));
+        beatMarker(marker, bd, bdb);
+        return marker;
     }
 
     private void updateUserMarker(Marker marker, UserState userState){
         marker.setPosition(new LatLng(userState.lat, userState.lng));
     }
-
 }

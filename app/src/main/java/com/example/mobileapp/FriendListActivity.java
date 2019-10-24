@@ -62,9 +62,11 @@ public class FriendListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 User friend = friendList.get(position);
-                Intent intent = new Intent(FriendListActivity.this, FriendProfileActivity.class);
-                intent.putExtra("selected_friend", friend);
-                startActivity(intent);
+                if(friend!=null){
+                    Intent intent = new Intent(FriendListActivity.this, FriendProfileActivity.class);
+                    intent.putExtra("selected_friend", friend);
+                    startActivity(intent);
+                }
             }
         });
 

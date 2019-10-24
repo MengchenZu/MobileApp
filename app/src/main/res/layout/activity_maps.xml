@@ -32,19 +32,6 @@
 
 
     <Button
-        android:id="@+id/btnMyLoc"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center|bottom"
-        android:layout_marginBottom="100dp"
-        android:background="@drawable/round_button"
-        android:onClick="onClick_btnMyLoc"
-        android:text="⊙"
-        android:textColor="#CCF5FBFF"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <Button
         android:id="@+id/btnMe"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -59,19 +46,5 @@
         android:textColor="#CCF5FBFF"
         android:layout_marginEnd="20dp" />
 
-
-    <Button
-        android:id="@+id/btnSv"
-        android:layout_width="60dp"
-        android:layout_height="56dp"
-        android:layout_gravity="start|top"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="100dp"
-        android:background="@drawable/round_button"
-        android:onClick="onClick_btnSv"
-        android:text="0.0"
-        android:textColor="#CCF5FBFF"
-        android:textSize="16sp"
-        android:textStyle="bold" />
 
 </FrameLayout>
