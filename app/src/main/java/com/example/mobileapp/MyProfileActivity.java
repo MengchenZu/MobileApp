@@ -67,6 +67,31 @@ public class MyProfileActivity extends AppCompatActivity {
             }
         });
 
+        Button logout = (Button) findViewById(R.id.logout);
+        logout.setText(getResources().getText(R.string.logout));
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    JSONObject logout_feedback = new JSONObject(ApiHelper.logout(sessionkey));
+                    Boolean logout_state = logout_feedback.getBoolean("success");
+                    if (logout_state) {
+                        Intent result = new Intent();
+                        Intent new_login = new Intent(MyProfileActivity.this, LoginActivity.class);
+                        result.putExtra("logout", "successful");
+                        setResult(222, result);
+                        finish();
+                        startActivity(new_login);
+                    }
+                    else {
+                        Toast.makeText(MyProfileActivity.this, "Log out failed, please try again", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         Spinner state_menu = (Spinner) findViewById(R.id.state_menu);
         state_menu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
