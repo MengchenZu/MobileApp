@@ -53,6 +53,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationManager locationManager;
     private Timer updateTimer = new Timer();
     private String sessionkey;
+    private boolean showingText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         updateLocationThread();
+        showingText = false;
     }
 
 
@@ -239,7 +241,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             else
             {
                 // no loc data
-                Toast.makeText(this,"Your location could not be determined", Toast.LENGTH_SHORT).show();
+                if(!showingText) {
+                    showingText = true;
+                    Toast.makeText(this, "Your location could not be determined",
+                            Toast.LENGTH_SHORT).show();
+                }
                 return;
             }
         } else {
