@@ -10,15 +10,14 @@
         android:layout_height="190dp"
         android:layout_gravity="center"
         android:src="@drawable/minions"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="40dp"/>
 
-    <TextView
-        android:id="@+id/Logo_text"
-        android:gravity="center"
-        android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="70dp"
-        android:text="Welcome"
-        android:textSize="30sp" />
+        android:layout_gravity="center"
+        android:src="@drawable/minions_text"
+        android:layout_marginTop="20dp"/>
 
     <EditText
         android:id="@+id/Username_edit"
@@ -59,10 +58,9 @@
     <TextView
         android:id="@+id/register_text"
         android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:layout_gravity="center"
         android:gravity="center"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:text="Or Sign up now!" />
 </LinearLayout>

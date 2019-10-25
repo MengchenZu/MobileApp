@@ -10,7 +10,7 @@
         android:layout_height="190dp"
         android:layout_gravity="center"
         android:src="@drawable/minions"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="40dp"/>
 
     <EditText
         android:id="@+id/username_edit"
@@ -67,9 +67,10 @@
     <TextView
         android:id="@+id/Login_text"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="30dp"
         android:text="Or Sign in!"
         android:gravity="center"
+        android:textSize="15dp"
         android:layout_gravity="center" />
 
 </LinearLayout>
