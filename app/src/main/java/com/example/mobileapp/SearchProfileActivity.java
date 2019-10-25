@@ -51,7 +51,8 @@ public class SearchProfileActivity extends AppCompatActivity {
                     String toId = friend.loginId;
                     String message = "I'm " + UserData.getInstance().getCurrentUser().getName();
                     JSONObject add_feedback = new JSONObject(ApiHelper.addFriend(sessionkey, toId, message));
-                    Boolean add_state = add_feedback.getBoolean("success");
+                    boolean add_state = add_feedback.getBoolean("success");
+                    String result = add_feedback.getString(message);
                     if (add_state) {
                         Intent intent = new Intent();
                         intent.putExtra("add", "add_successful");
@@ -59,7 +60,7 @@ public class SearchProfileActivity extends AppCompatActivity {
                         finish();
                     }
                     else {
-                        Toast.makeText(getApplicationContext(), "Error, please try again.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Error, " + result, Toast.LENGTH_SHORT).show();
                     }
                 } catch(Exception e) {
                     e.printStackTrace();

@@ -25,14 +25,16 @@
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:hint="Password"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:inputType="textPassword" />
 
     <EditText
         android:id="@+id/confirm_edit"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:hint="Confirm password"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:inputType="textPassword" />
 
     <EditText
         android:id="@+id/nickname_edit"
