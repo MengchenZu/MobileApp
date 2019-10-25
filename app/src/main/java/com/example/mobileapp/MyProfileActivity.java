@@ -37,12 +37,6 @@ public class MyProfileActivity extends AppCompatActivity {
         user = UserData.getInstance().getCurrentUser();
         Intent previous_intent = getIntent();
         sessionkey = previous_intent.getStringExtra("sessionkey");
-        /**try {
-            JSONObject self = (new JSONObject(ApiHelper.self(sessionkey))).getJSONObject("self");
-            user = User.fromJsonObj(self);
-        } catch(Exception e) {
-            e.printStackTrace();
-        }*/
         userState = (UserState) previous_intent.getSerializableExtra("currentState");
         ImageView profile_image = (ImageView) findViewById(R.id.my_profile_avatar);
         profile_image.setImageResource(user.getAvatar());

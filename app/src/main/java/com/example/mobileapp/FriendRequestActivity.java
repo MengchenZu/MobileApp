@@ -74,23 +74,6 @@ public class FriendRequestActivity extends AppCompatActivity {
             data.add(map);
         }
         return data;
-        /**ArrayList<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
-        Map<String, Object> map;
-        map = new HashMap<String, Object>();
-        map.put("image", R.drawable.avatar_male);
-        map.put("name", "Karl");
-        map.put("info", "Hi, I am Karl.");
-        map.put("button_accept", "Accept");
-        map.put("button_refuse", "Refuse");
-        data.add(map);
-        map = new HashMap<String, Object>();
-        map.put("image", R.drawable.avatar_female);
-        map.put("name", "Alice");
-        map.put("info", "Hey mate!");
-        map.put("button_accept", "Accept");
-        map.put("button_refuse", "Refuse");
-        data.add(map);
-        return data;*/
     }
 
     class MyAdapter extends SimpleAdapter {

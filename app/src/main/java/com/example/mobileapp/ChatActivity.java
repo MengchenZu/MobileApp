@@ -63,11 +63,6 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String content = inputText.getText().toString();
                 if(!"".equals(content)) {
-//                    Msg msg = new Msg(content, Msg.TYPE_SENT);
-//                    msgList.add(msg);
-//                    adapter.notifyItemInserted(msgList.size() - 1);
-//                    msgRecyclerView.scrollToPosition(msgList.size() - 1);
-//                    inputText.setText("");
                     sendThread send = new sendThread();
                     send.start();
                 }
@@ -75,20 +70,10 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    /**private void initMsgs() {
-        Msg msg1 = new Msg("Hello", Msg.TYPE_RECEIVED);
-        msgList.add(msg1);
-        Msg msg2 = new Msg("ThankU", Msg.TYPE_SENT);
-        msgList.add(msg2);
-        Msg msg3 = new Msg("What's ur problem", Msg.TYPE_RECEIVED);
-        msgList.add(msg3);
-    }*/
-
     class listenThread extends Thread {
         @Override
         public void run() {
             while(true) {
-                //改成api
                 try {
                     JSONObject get_feedback = new JSONObject(ApiHelper.getMessages(UserData.getInstance().getSessionKey()));
                     boolean get_state = get_feedback.getBoolean("success");

@@ -164,34 +164,9 @@ public class FriendListActivity extends AppCompatActivity {
             //JSONArray friends = friends_feedback.getJSONArray("friends");
             friendList = new ArrayList<>();
             friendList.addAll(friends);
-            /**for (int i = 0; i < friends.length(); i++) {
-                JSONObject friend = friends.getJSONObject(i);
-                User user = User.fromJsonObj(friend);
-                //User user = new User(friend.getString("loginId"), friend.getString("name"), R.drawable.profile, friend.getString("info"));
-                friendList.add(user);
-            }*/
         } catch(Exception e) {
             e.printStackTrace();
         }
-
-        /**for (int i = 0; i < 5; i++) {
-            User a = new User("A", R.drawable.profile);
-            friendList.add(a);
-            User b = new User("B", R.drawable.profile);
-            friendList.add(b);
-            User c = new User("C", R.drawable.profile);
-            friendList.add(c);
-            User d = new User("D", R.drawable.profile);
-            friendList.add(d);
-            User e = new User("E", R.drawable.profile);
-            friendList.add(e);
-            User f = new User("F", R.drawable.profile);
-            friendList.add(f);
-            User g = new User("G", R.drawable.profile);
-            friendList.add(g);
-            User h = new User("H", R.drawable.profile);
-            friendList.add(h);
-        }*/
     }
 
     @Override

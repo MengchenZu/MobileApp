@@ -235,12 +235,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             else
             {
-                // no loc data
-//                if(!showingText) {
-//                    showingText = true;
-//                    Toast.makeText(this, "Your location could not be determined",
-//                            Toast.LENGTH_SHORT).show();
-//                }
+
                 return;
             }
         } else {

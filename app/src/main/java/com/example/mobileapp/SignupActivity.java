@@ -96,15 +96,12 @@ public class SignupActivity extends AppCompatActivity {
 
                 JSONObject register_feedback = new JSONObject(ApiHelper.register(id, password, username, avatar, info));
                 registerStatus = register_feedback.getBoolean("success");
-                //要修改
-                //Thread.sleep(5000);
 
                 if(registerStatus) {
                     sessionkey = register_feedback.getString("sessionkey");
                     Runnable runnable_1 = new Runnable() {
                         @Override
                         public void run() {
-                            //改成跳转到地图界面
                             Intent intent = new Intent(SignupActivity.this, MapsActivity.class);
                             intent.putExtra("sessionkey", sessionkey);
                             startActivity(intent);

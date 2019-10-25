@@ -52,7 +52,8 @@ public class SearchProfileActivity extends AppCompatActivity {
                     String message = "I'm " + UserData.getInstance().getCurrentUser().getName();
                     JSONObject add_feedback = new JSONObject(ApiHelper.addFriend(sessionkey, toId, message));
                     boolean add_state = add_feedback.getBoolean("success");
-                    String result = add_feedback.getString(message);
+                    String result = add_feedback.getString("message");
+
                     if (add_state) {
                         Intent intent = new Intent();
                         intent.putExtra("add", "add_successful");

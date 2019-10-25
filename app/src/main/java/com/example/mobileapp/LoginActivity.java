@@ -81,15 +81,12 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 login_feedback = new JSONObject(ApiHelper.login(username, password));
                 loginStatus = login_feedback.getBoolean("success");
-                //要修改
-                //Thread.sleep(5000);
 
                 if(loginStatus) {
                     sessionkey = login_feedback.getString("sessionkey");
                     Runnable runnable_1 = new Runnable() {
                         @Override
                         public void run() {
-                            //改成跳转到地图界面
                             Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
                             intent.putExtra("sessionkey", sessionkey);
                             startActivity(intent);
