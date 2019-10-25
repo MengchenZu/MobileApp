@@ -48,7 +48,7 @@ public class ChatActivity extends AppCompatActivity {
         Intent previous_intent = getIntent();
         friend = (User) previous_intent.getSerializableExtra("friend");
         setTitle(friend.getName());
-        initMsgs();
+        //initMsgs();
         listenThread listen = new listenThread();
         listen.start();
         inputText = (EditText) findViewById(R.id.input_text);
@@ -75,14 +75,14 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    private void initMsgs() {
+    /**private void initMsgs() {
         Msg msg1 = new Msg("Hello", Msg.TYPE_RECEIVED);
         msgList.add(msg1);
         Msg msg2 = new Msg("ThankU", Msg.TYPE_SENT);
         msgList.add(msg2);
         Msg msg3 = new Msg("What's ur problem", Msg.TYPE_RECEIVED);
         msgList.add(msg3);
-    }
+    }*/
 
     class listenThread extends Thread {
         @Override
