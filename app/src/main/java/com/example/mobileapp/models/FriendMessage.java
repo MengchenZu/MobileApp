@@ -7,6 +7,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FriendMessage {
+    /**
+     *  A model class for store friend message
+     *  (a user id and a message) and parse from an json object
+     */
     public String loginId;
     public String message;
 

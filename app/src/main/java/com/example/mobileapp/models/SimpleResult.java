@@ -4,6 +4,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SimpleResult {
+    /**
+     *  A model class for store the simple result from api call and parse from an json object
+     */
     public boolean success;
     public String message;
 

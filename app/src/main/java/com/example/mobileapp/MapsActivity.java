@@ -58,11 +58,14 @@ import static com.example.mobileapp.models.UserData.updateFriendStates;
 //import com.google.android.gms.location.LocationListener;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+    /**This is our main activity, shows friends location,
+     * and update friends information and update marker location in each 2 seconds
+     * the default location is melbourne -37.814, 144.96332
+     */
     public static MapsActivity instance;
     private HashMap<String, Marker> markers = new HashMap<>();
-
     private GoogleMap mMap;
-    public static final LatLng DEFAULT_LOCATION = new LatLng(-37.814, 144.96332); // melbourne
+    public static final LatLng DEFAULT_LOCATION = new LatLng(-37.814, 144.96332);
     public User currentUser;
     public UserState currentState;
     private Circle circle;
@@ -120,12 +123,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         updateLastLocation();
         mMap = googleMap;
-
+        // Google map ui settings
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
         uiSettings.setCompassEnabled(true);
         uiSettings.setMyLocationButtonEnabled(false);
-
         // check for permission
         locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -136,13 +138,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // Permission is not granted
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},0);
         }
-//        updateTimer.schedule(new TimerTask(){
-//            @Override
-//            public void run(){
-//                updateInformation();
-//            }
-//        }, 3000);
-//        sampleMarker();
+        // Set Friend Markers
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
@@ -157,20 +153,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
         updateMarkers();
-
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentState.lat, currentState.lng),12));
-    }
-
-    public Bitmap DownloadImg(){
-        try{
-            String img = "https://cdn0.iconfinder.com/data/icons/material-circle-apps/512/icon-android-material-design-512.png";
-            URL url = new URL(img);
-            InputStream is = url.openStream();
-            return android.graphics.BitmapFactory.decodeStream(is);
-
-        }catch(Exception e){
-            return null;
-        }
     }
 
     @Override
@@ -187,44 +170,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    public void addCircle(){
-        circle = mMap.addCircle(new CircleOptions()
-                .center(DEFAULT_LOCATION)
-                .radius(100)
-                .strokeWidth(10)
-                .strokeColor(Color.GREEN)
-                .fillColor(Color.argb(128, 255, 0, 0))
-                .clickable(true));
-
-        mMap.setOnCircleClickListener(new GoogleMap.OnCircleClickListener() {
-            @Override
-            public void onCircleClick(Circle circle) {
-                // Flip the r, g and b components of the circle's
-                // stroke color.
-                int strokeColor = circle.getStrokeColor() ^ 0x00ffffff;
-                circle.setStrokeColor(strokeColor);
-                circle.setRadius(circle.getRadius()==100?200:100);
-            }
-        });
-    }
-
-    public void addMarker(String id, BitmapDescriptor icon, LatLng loc){
-        // avatat, latlng
-        mMap.addMarker(new MarkerOptions()
-                .position(loc)
-                .icon(icon)
-                .title(id));
-    }
-
-
     public void onClick_btnMyLoc(android.view.View v) {
         updateLastLocation();
         if (currentState!=null){
             mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(currentState.lat, currentState.lng)));
         }
-    }
-
-    public void onClick_btnSv(android.view.View v) {
     }
 
     public void onClick_btnList(android.view.View v) {
@@ -254,28 +204,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(friend_lat, friend_lng)));
             }
         }
-    }
-
-    private void updateLocationThread() {
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    while (!this.isInterrupted()) {
-                        Thread.sleep(2000);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                updateLastLocation();
-                            }
-                        });
-                    }
-                } catch (InterruptedException e) {
-                }
-            }
-        };
-
-        thread.start();
     }
 
     private void updateLastLocation(){
@@ -322,36 +250,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void sampleMarker(){
-//        addCircle();
-        final Bitmap[] icon = new Bitmap[2];
-        Thread th = new Thread(new Runnable() {
-            public void run() {
-                icon[0] = DownloadImg();
-            }
-        });
-        th.start();
-        try{
-            th.join();
-        }catch (Exception e){
-
-        }
-        Matrix matrix = new Matrix();
-        matrix.postScale(.95f, .95f);
-        icon[1] = Bitmap.createBitmap(icon[0], 0, 0, icon[0].getWidth(),icon[0].getHeight(),matrix, true);
-        // update current user's info
-        // update all friends info
-        Marker marker = mMap.addMarker(new MarkerOptions()
-                .title("your friend")
-                .icon(BitmapDescriptorFactory.fromBitmap(icon[0]))
-                .position(DEFAULT_LOCATION));
-//        GroundOverlayOptions newarkMap = new GroundOverlayOptions()
-//                .image(BitmapDescriptorFactory.fromBitmap(icon[0]))
-//                .position(DEFAULT_LOCATION, 123);
-//        mMap.addGroundOverlay(newarkMap);
-        beatMarker(marker, BitmapDescriptorFactory.fromBitmap(icon[0]), BitmapDescriptorFactory.fromBitmap(icon[1]));
-    }
-
+    // let a marker beat
     static void beatMarker(final Marker marker, final BitmapDescriptor bigIco, final BitmapDescriptor smallIco){
         final Handler handler = new Handler();
         final boolean[] toBig = {true};
@@ -368,14 +267,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 handler.postDelayed(this, 200);
             }
         });
-    }
-
-    public void moveCamera(double lat, double lng){
-        moveCamera(new LatLng(lat,lng));
-    }
-
-    public void moveCamera(LatLng latLng){
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
     }
 
     private void updateThread() {

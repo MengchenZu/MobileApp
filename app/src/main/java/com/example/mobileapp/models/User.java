@@ -8,6 +8,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class User implements Serializable {
+    /**
+     *  A model class for store user profile and parse from an json object
+     */
+
     public String loginId;
     public String name;
     public int avatar;

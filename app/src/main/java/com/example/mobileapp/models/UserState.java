@@ -6,6 +6,9 @@ import org.json.JSONObject;
 import java.io.Serializable;
 
 public class UserState implements Serializable {
+    /**
+     *  A model class for store the user state and parse from an json object
+     */
     public String loginId;
     public double lat;
     public double lng;
