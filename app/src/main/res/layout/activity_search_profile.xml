@@ -10,28 +10,28 @@
         android:layout_weight="2"/>
 
     <ImageView
-        android:id="@+id/friend_profile_avatar"
+        android:id="@+id/search_profile_avatar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
         android:layout_gravity="center"/>
 
     <TextView
-        android:id="@+id/friend_profile_id"
+        android:id="@+id/search_profile_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="24sp"/>
 
     <TextView
-        android:id="@+id/friend_profile_username"
+        android:id="@+id/search_profile_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="24sp"/>
 
     <TextView
-        android:id="@+id/friend_profile_info"
+        android:id="@+id/search_profile_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -39,16 +39,10 @@
         android:textSize="24sp"/>
 
     <Button
-        android:id="@+id/friend_profile_button"
-        android:layout_width="150dp"
+        android:id="@+id/search_profile_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"/>
-
-    <Button
-        android:id="@+id/chat_button"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
 
     <TextView
         android:layout_width="match_parent"

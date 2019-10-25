@@ -8,5 +8,6 @@
     <string name="edit_profile">Edit Profile</string>
     <string name="logout">Log Out</string>
     <string name="send_request">Send Request</string>
+    <string name="chat">Chat</string>
 
 </resources>

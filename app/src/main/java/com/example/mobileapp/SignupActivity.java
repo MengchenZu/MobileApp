@@ -92,7 +92,7 @@ public class SignupActivity extends AppCompatActivity {
                 String password = passwordEdit.getText().toString();
                 String username = nicknameEdit.getText().toString();
                 String info = "Hello!";
-                int avatar = R.drawable.profile;
+                int avatar = 0;
 
                 JSONObject register_feedback = new JSONObject(ApiHelper.register(id, password, username, avatar, info));
                 registerStatus = register_feedback.getBoolean("success");

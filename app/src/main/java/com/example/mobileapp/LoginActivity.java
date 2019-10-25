@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
         public void run() {
             String username = usernameEdit.getText().toString();
             String password = passwordEdit.getText().toString();
-            Boolean loginStatus = false;
+            boolean loginStatus = false;
             try {
                 login_feedback = new JSONObject(ApiHelper.login(username, password));
                 loginStatus = login_feedback.getBoolean("success");

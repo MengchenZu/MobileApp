@@ -16,6 +16,8 @@ import com.example.mobileapp.models.UserState;
 
 public class FriendProfileActivity extends AppCompatActivity {
 
+    private User friend;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +27,7 @@ public class FriendProfileActivity extends AppCompatActivity {
             actionbar.hide();
         }
         Intent previous_intent = getIntent();
-        User friend = (User) previous_intent.getSerializableExtra("selected_friend");
+        friend = (User) previous_intent.getSerializableExtra("selected_friend");
         ImageView profile_image = (ImageView) findViewById(R.id.friend_profile_avatar);
         profile_image.setImageResource(friend.getAvatar());
         TextView profile_id = (TextView) findViewById(R.id.friend_profile_id);
@@ -37,6 +39,7 @@ public class FriendProfileActivity extends AppCompatActivity {
         TextView profile_info = (TextView) findViewById(R.id.friend_profile_info);
         String info_text = "About: " + friend.info;
         profile_info.setText(info_text);
+
         Button show_location = (Button) findViewById(R.id.friend_profile_button);
         show_location.setText(getResources().getText(R.string.show_location));
         show_location.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +54,17 @@ public class FriendProfileActivity extends AppCompatActivity {
                 intent.putExtra("lng", lng);
                 setResult(777, intent);
                 finish();
+            }
+        });
+
+        Button chat = (Button) findViewById(R.id.chat_button);
+        chat.setText("Chat");
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FriendProfileActivity.this, ChatActivity.class);
+                intent.putExtra("friend", friend);
+                startActivity(intent);
             }
         });
     }
