@@ -7,21 +7,30 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="0.3"/>
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="270dp"
+        android:layout_height="190dp"
+        android:layout_gravity="center"
+        android:src="@drawable/raise_hand"/>
 
     <EditText
         android:id="@+id/add_friend_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:hint="Enter the ID to search"/>
+        android:hint="Enter the ID to search"
+        android:layout_marginTop="20dp"/>
 
     <Button
         android:id="@+id/add_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Search" />
+        android:text="Search"
+        android:layout_marginTop="20dp" />
 
     <TextView
         android:layout_width="match_parent"
