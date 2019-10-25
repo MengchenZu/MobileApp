@@ -124,6 +124,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
         uiSettings.setCompassEnabled(true);
+        uiSettings.setMyLocationButtonEnabled(false);
 
         // check for permission
         locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
