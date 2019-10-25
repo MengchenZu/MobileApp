@@ -6,10 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.mobileapp.models.User;
+import com.example.mobileapp.models.UserData;
+import com.example.mobileapp.models.UserState;
 
 public class FriendProfileActivity extends AppCompatActivity {
 
@@ -36,5 +39,19 @@ public class FriendProfileActivity extends AppCompatActivity {
         profile_info.setText(info_text);
         Button show_location = (Button) findViewById(R.id.friend_profile_button);
         show_location.setText(getResources().getText(R.string.show_location));
+        show_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id = friend.getLoginId();
+                UserState friend_state = UserData.getInstance().getState(id);
+                double lat = friend_state.lat;
+                double lng = friend_state.lng;
+                Intent intent = new Intent();
+                intent.putExtra("lat", lat);
+                intent.putExtra("lng", lng);
+                setResult(777, intent);
+                finish();
+            }
+        });
     }
 }

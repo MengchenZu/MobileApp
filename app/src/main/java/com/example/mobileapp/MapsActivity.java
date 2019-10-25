@@ -229,7 +229,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onClick_btnList(android.view.View v) {
         Intent intent = new Intent(MapsActivity.this, FriendListActivity.class);
         intent.putExtra("sessionkey", sessionkey);
-        startActivity(intent);
+        startActivityForResult(intent, 999);
     }
 
     public void onClick_btnMe(android.view.View v) {
@@ -239,10 +239,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivityForResult(intent, 111);
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent date) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 111) {
             if (resultCode == 222) {
                 finish();
+            }
+        }
+        else if (requestCode == 999) {
+            if (resultCode == 888) {
+                double friend_lat = data.getDoubleExtra("lat", 0.0);
+                double friend_lng = data.getDoubleExtra("lng", 0.0);
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(friend_lat, friend_lng)));
             }
         }
     }

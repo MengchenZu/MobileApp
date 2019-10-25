@@ -1,5 +1,6 @@
 package com.example.mobileapp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -65,7 +66,7 @@ public class FriendListActivity extends AppCompatActivity {
                 if(friend!=null){
                     Intent intent = new Intent(FriendListActivity.this, FriendProfileActivity.class);
                     intent.putExtra("selected_friend", friend);
-                    startActivity(intent);
+                    startActivityForResult(intent, 666);
                 }
             }
         });
@@ -128,7 +129,7 @@ public class FriendListActivity extends AppCompatActivity {
                 if(friend!=null){
                     Intent intent = new Intent(FriendListActivity.this, FriendProfileActivity.class);
                     intent.putExtra("selected_friend", friend);
-                    startActivity(intent);
+                    startActivityForResult(intent, 666);
                 }
             }
         });
@@ -191,5 +192,15 @@ public class FriendListActivity extends AppCompatActivity {
             User h = new User("H", R.drawable.profile);
             friendList.add(h);
         }*/
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == 666) {
+            if (resultCode == 777) {
+                setResult(888, data);
+                finish();
+            }
+        }
     }
 }
