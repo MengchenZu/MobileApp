@@ -12,8 +12,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 public class ApiHelper {
+    /** This class is designed for call web api and get the result,
+     *  The hard code URL is our server api address
+     *  15 function correspond to our 15 apis
+     */
 
-    private static final  String TEST_URL = "http://104.207.132.11";
     private static final String BASE_URL = "http://104.207.132.11/api/mobile/";
 
     public static String generalCall(String urlStr, String[] keys, Object[] values){
@@ -68,18 +71,6 @@ public class ApiHelper {
         }
     }
 
-    public static boolean checkNetwork(){
-        try{
-            URL url = new URL(TEST_URL);HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setConnectTimeout(2000);
-            connection.setRequestMethod("GET");
-
-            int responseCode = connection.getResponseCode();
-            return true;
-        }catch (Exception e){
-            return false;
-        }
-    }
     // 1
     public static String register(String loginId, String password, String name, int avatar, String info){
         String urlStr = BASE_URL + "register";

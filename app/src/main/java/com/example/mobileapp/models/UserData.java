@@ -21,6 +21,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class UserData {
+    /** This class is for store and update background data,
+     * the data contains: friend profiles, friend stats,
+     *  friend requests and friend messages,
+     *  other class can call those getter to get data
+     *  without call api by themselves
+     */
 
     // login info
     private String loginId;
@@ -99,7 +105,7 @@ public class UserData {
         return userData.sessionKey == null ? null : userData;
     }
 
-    // update
+    // update data
 
     public boolean updateSelfProfile(Context context){
         String strResult =  ApiHelper.self(sessionKey);
